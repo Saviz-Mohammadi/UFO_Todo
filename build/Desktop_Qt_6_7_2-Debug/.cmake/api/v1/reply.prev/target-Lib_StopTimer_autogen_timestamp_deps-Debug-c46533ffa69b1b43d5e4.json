@@ -1,0 +1,27 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"internal_libraries/lib_stop_timer/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"id" : "Lib_StopTimer_autogen_timestamp_deps::@a386afb39f12cb07fc8f",
+	"isGeneratorProvided" : true,
+	"name" : "Lib_StopTimer_autogen_timestamp_deps",
+	"paths" : 
+	{
+		"build" : "internal_libraries/lib_stop_timer",
+		"source" : "internal_libraries/lib_stop_timer"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

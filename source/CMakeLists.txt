@@ -170,7 +170,10 @@ set(RESOURCE_ICON_FILES
     "${BASE_ICON_LOCATION}/Google icons/delete.svg"
     "${BASE_ICON_LOCATION}/Google icons/list.svg"
     "${BASE_ICON_LOCATION}/Google icons/settings.svg"
-    "${BASE_ICON_LOCATION}/Google icons/alarm.svg")
+    "${BASE_ICON_LOCATION}/Google icons/alarm.svg"
+    "${BASE_ICON_LOCATION}/Google icons/play.svg"
+    "${BASE_ICON_LOCATION}/Google icons/resume.svg"
+    "${BASE_ICON_LOCATION}/Google icons/stop.svg")
 
 
 # Make sure to prefix the path with ${BASE_ICON_LOCATION}.
@@ -210,7 +213,8 @@ set(RESOURCE_QML_FILES
     "${BASE_QML_LOCATION}/ufo/UFO_TextField.qml"
     "${BASE_QML_LOCATION}/ufo/UFO_ListDelegate.qml"
     "${BASE_QML_LOCATION}/ufo/UFO_ProgressBar.qml"
-    "${BASE_QML_LOCATION}/ufo/UFO_StopTimer.qml")
+    "${BASE_QML_LOCATION}/ufo/UFO_StopTimer.qml"
+    "${BASE_QML_LOCATION}/ufo/UFO_Button.qml")
 
 # [[ ----------------------------------------------------------------------- ]]
 # [[ ----------------------------------------------------------------------- ]]

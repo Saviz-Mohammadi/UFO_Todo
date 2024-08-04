@@ -1,0 +1,114 @@
+{
+	"BUILD_DIR" : "/home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug/internal_libraries/lib_database/Lib_Database_autogen",
+	"CMAKE_BINARY_DIR" : "/home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug/internal_libraries/lib_database",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/saviz/Desktop/UFO_Todo/source/internal_libraries/lib_database",
+	"CMAKE_EXECUTABLE" : "/home/saviz/Qt/Tools/CMake/bin/cmake",
+	"CMAKE_LIST_FILES" : 
+	[
+		"/home/saviz/Desktop/UFO_Todo/source/internal_libraries/lib_database/CMakeLists.txt",
+		"/home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug/.qtc/package-manager/auto-setup.cmake"
+	],
+	"CMAKE_SOURCE_DIR" : "/home/saviz/Desktop/UFO_Todo/source",
+	"CROSS_CONFIG" : false,
+	"DEP_FILE" : "/home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug/internal_libraries/lib_database/Lib_Database_autogen/deps",
+	"DEP_FILE_RULE_NAME" : "Lib_Database_autogen/timestamp",
+	"HEADERS" : 
+	[
+		[
+			"/home/saviz/Desktop/UFO_Todo/source/internal_libraries/lib_database/include/database.hpp",
+			"Mu",
+			"6YEA5652QU/moc_database.cpp",
+			null
+		]
+	],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "/home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug/internal_libraries/lib_database/Lib_Database_autogen/include",
+	"MOC_COMPILATION_FILE" : "/home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug/internal_libraries/lib_database/Lib_Database_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : 
+	[
+		"QT_CORE_LIB",
+		"QT_GUI_LIB",
+		"QT_NETWORK_LIB",
+		"QT_OPENGL_LIB",
+		"QT_QMLBUILTINS_LIB",
+		"QT_QMLINTEGRATION_LIB",
+		"QT_QMLMODELS_LIB",
+		"QT_QML_LIB",
+		"QT_QUICKCONTROLS2_LIB",
+		"QT_QUICK_LIB",
+		"QT_SQL_LIB"
+	],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"/home/saviz/Desktop/UFO_Todo/source/internal_libraries/lib_database/include",
+		"/home/saviz/Qt/6.7.2/gcc_64/include/QtCore",
+		"/home/saviz/Qt/6.7.2/gcc_64/include",
+		"/home/saviz/Qt/6.7.2/gcc_64/mkspecs/linux-g++",
+		"/home/saviz/Qt/6.7.2/gcc_64/include/QtGui",
+		"/home/saviz/Qt/6.7.2/gcc_64/include/QtQuick",
+		"/home/saviz/Qt/6.7.2/gcc_64/include/QtQml",
+		"/home/saviz/Qt/6.7.2/gcc_64/include/QtQmlIntegration",
+		"/home/saviz/Qt/6.7.2/gcc_64/include/QtQmlBuiltins",
+		"/home/saviz/Qt/6.7.2/gcc_64/include/QtNetwork",
+		"/home/saviz/Qt/6.7.2/gcc_64/include/QtQmlModels",
+		"/home/saviz/Qt/6.7.2/gcc_64/include/QtOpenGL",
+		"/home/saviz/Qt/6.7.2/gcc_64/include/QtQuickControls2",
+		"/home/saviz/Qt/6.7.2/gcc_64/include/QtSql",
+		"/usr/include",
+		"/usr/include/c++/11",
+		"/usr/include/x86_64-linux-gnu/c++/11",
+		"/usr/include/c++/11/backward",
+		"/usr/lib/gcc/x86_64-linux-gnu/11/include",
+		"/usr/local/include",
+		"/usr/include/x86_64-linux-gnu"
+	],
+	"MOC_MACRO_NAMES" : 
+	[
+		"Q_OBJECT",
+		"Q_GADGET",
+		"Q_NAMESPACE",
+		"Q_NAMESPACE_EXPORT",
+		"Q_GADGET_EXPORT",
+		"Q_ENUM_NS"
+	],
+	"MOC_OPTIONS" : [],
+	"MOC_PATH_PREFIX" : false,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"/usr/bin/x86_64-linux-gnu-g++-11",
+		"-std=gnu++17",
+		"-dM",
+		"-E",
+		"-c",
+		"/home/saviz/Qt/Tools/CMake/share/cmake-3.29/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "/home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug/internal_libraries/lib_database/Lib_Database_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : [],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 6,
+	"PARSE_CACHE_FILE" : "/home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug/internal_libraries/lib_database/CMakeFiles/Lib_Database_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "/home/saviz/Qt/6.7.2/gcc_64/./libexec/moc",
+	"QT_UIC_EXECUTABLE" : "",
+	"QT_VERSION_MAJOR" : 6,
+	"QT_VERSION_MINOR" : 7,
+	"SETTINGS_FILE" : "/home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug/internal_libraries/lib_database/CMakeFiles/Lib_Database_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[
+			"/home/saviz/Desktop/UFO_Todo/source/internal_libraries/lib_database/src/database.cpp",
+			"Mu",
+			null
+		]
+	],
+	"USE_BETTER_GRAPH" : false,
+	"VERBOSITY" : 0
+}

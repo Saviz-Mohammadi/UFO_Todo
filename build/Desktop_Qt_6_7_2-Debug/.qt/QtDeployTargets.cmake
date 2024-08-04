@@ -1,0 +1,8 @@
+set(__QT_DEPLOY_TARGET_Lib_AppTheme_FILE /home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug/bin/Linux/64-bit/Debug/lib_static/libLib_AppTheme.a)
+set(__QT_DEPLOY_TARGET_Lib_AppTheme_TYPE STATIC_LIBRARY)
+set(__QT_DEPLOY_TARGET_Lib_Database_FILE /home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug/bin/Linux/64-bit/Debug/lib_static/libLib_Database.a)
+set(__QT_DEPLOY_TARGET_Lib_Database_TYPE STATIC_LIBRARY)
+set(__QT_DEPLOY_TARGET_Lib_StopTimer_FILE /home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug/bin/Linux/64-bit/Debug/lib_static/libLib_StopTimer.a)
+set(__QT_DEPLOY_TARGET_Lib_StopTimer_TYPE STATIC_LIBRARY)
+set(__QT_DEPLOY_TARGET_UFO_Todo_FILE /home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug/bin/Linux/64-bit/Debug/executable/UFO_Todo)
+set(__QT_DEPLOY_TARGET_UFO_Todo_TYPE EXECUTABLE)

@@ -1,0 +1,71 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"internal_libraries/lib_app_theme/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "Lib_AppTheme_autogen_timestamp_deps::@74e41b5faf4ee21e5923"
+		}
+	],
+	"id" : "Lib_AppTheme_autogen::@74e41b5faf4ee21e5923",
+	"isGeneratorProvided" : true,
+	"name" : "Lib_AppTheme_autogen",
+	"paths" : 
+	{
+		"build" : "internal_libraries/lib_app_theme",
+		"source" : "internal_libraries/lib_app_theme"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "/home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug/internal_libraries/lib_app_theme/CMakeFiles/Lib_AppTheme_autogen",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "/home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug/internal_libraries/lib_app_theme/CMakeFiles/Lib_AppTheme_autogen.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "/home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug/internal_libraries/lib_app_theme/Lib_AppTheme_autogen/timestamp.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}

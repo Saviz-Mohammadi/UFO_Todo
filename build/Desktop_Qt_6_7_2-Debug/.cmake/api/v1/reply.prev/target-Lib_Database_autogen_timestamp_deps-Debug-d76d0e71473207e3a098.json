@@ -1,0 +1,27 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"internal_libraries/lib_database/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"id" : "Lib_Database_autogen_timestamp_deps::@426369fba2437ce30e07",
+	"isGeneratorProvided" : true,
+	"name" : "Lib_Database_autogen_timestamp_deps",
+	"paths" : 
+	{
+		"build" : "internal_libraries/lib_database",
+		"source" : "internal_libraries/lib_database"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

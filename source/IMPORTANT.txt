@@ -129,3 +129,21 @@ since QtObject is lighter (less memory etc.) than an Item, in some cases it migh
 
 # [[ ----------------------------------------------------------------------- ]]
 # [[ ----------------------------------------------------------------------- ]]
+
+
+
+
+# [[ ----------------------------------------------------------------------- ]]
+# [[ ----------------------------------------------------------------------- ]]
+
+Generally, usage of implicitHeight/Width only makes sense within reusable components.
+
+It gives a hint, of the natural size of the Item without enforcing this size.
+
+When you want to set dimension of a root node of a reusable component, set implicitWidth/Height.
+In some cases, set it for non-root-nodes, if the nodes are exposed as a property.
+Do so only, if you have a reason for it (many official components come without any).
+When you use a component, set width/height.
+
+# [[ ----------------------------------------------------------------------- ]]
+# [[ ----------------------------------------------------------------------- ]]
