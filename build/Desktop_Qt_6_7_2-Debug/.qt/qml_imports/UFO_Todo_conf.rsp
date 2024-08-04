@@ -1,9 +1,0 @@
--rootPath
-/home/saviz/Desktop/UFO_Todo/source
--cmake-output
--output-file
-/home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug/.qt/qml_imports/UFO_Todo_conf.cmake
--importPath
-/home/saviz/Desktop/UFO_Todo/build/Desktop_Qt_6_7_2-Debug
--importPath
-/home/saviz/Qt/6.7.2/gcc_64/./qml
