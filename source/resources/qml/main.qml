@@ -478,6 +478,70 @@ ApplicationWindow {
                         }
                     }
                 }
+
+                UFO_GroupBox {
+                    id: ufo_GroupBox_5
+
+                    Layout.fillWidth: true
+                    // No point setting the "Layout.fillHeight" as "UFO_Page" ignores height to enable vertical scrolling.
+
+                    title: qsTr("Style")
+                    contentSpacing: 10
+
+                    Text {
+                        id: text_10
+
+                        Layout.preferredWidth: ufo_GroupBox_5.width - 50
+
+                        Layout.topMargin: 20
+                        Layout.bottomMargin: ufo_GroupBox_5.titleTopMargin
+                        Layout.leftMargin: ufo_GroupBox_5.titleLeftMargin
+                        text: NetworkManager.isConnected ? qsTr("Connected") : qsTr("Disconnected")
+                        color: Qt.color(AppTheme.Colors["UFO_GroupBox_Text"])
+                        wrapMode: Text.WordWrap
+                    }
+
+                    UFO_TextField {
+                        id: ufo_TextField_3
+
+                        placeholderText: qsTr("e.g 127.0.0.1")
+
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 45
+
+                        Layout.bottomMargin: 5
+
+                        // When "Enter" key is pressed.
+                        onAccepted: {
+
+                            // Probably put a regex here as well for validation.
+                            NetworkManager.connectToDevice(ufo_TextField_3.text)
+
+                            ufo_TextField_1.clear()
+                        }
+                    }
+
+                    UFO_Button {
+                        width: 120
+                        height: 35
+
+                        text: qsTr("Send sync request")
+
+                        enabled: NetworkManager.isConnected ? true : false
+
+                        onClicked: {
+                            NetworkManager.sendSynchronizeRequest();
+                        }
+                    }
+                }
+
+                Component.onCompleted: {
+                    var list = NetworkManager.getIP()
+
+                    for (var i = 0; i < list.length; i++) {
+                        console.log(list[i])
+                    }
+                }
             }
             // [[ ---------------------------------------------------------------------- ]]
             // [[ ---------------------------------------------------------------------- ]]
@@ -563,47 +627,6 @@ ApplicationWindow {
                         color: Qt.color(AppTheme.Colors["UFO_GroupBox_Text"])
                         wrapMode: Text.WordWrap
                     }
-
-                    UFO_ComboBox {
-                        id: ufo_ComboBox_2
-
-                        Layout.preferredHeight: 30
-                        Layout.preferredWidth: 300
-
-                        model: Object.keys(NetworkManager.RecognizedDevices)
-                        Layout.bottomMargin: ufo_GroupBox_3.titleTopMargin
-                        Layout.leftMargin: ufo_GroupBox_3.titleLeftMargin
-
-                        // onActivated: {
-                        //     // Grab the text when a new element is selected.
-                        //     AppTheme.loadColorsFromTheme(currentText)
-                        // }
-
-                        // Component.onCompleted: {
-                        //     // Obtain the name of last used Theme.
-                        //     var cachedTheme = AppTheme.cachedTheme()
-
-                        //     // This function looks at every entry, and finds the one that corresponds
-                        //     // to our cachedTheme name. Then it will set the index to that.
-                        //     for (var index = 0; index < ufo_ComboBox_2.model.length; ++index) {
-                        //         if (ufo_ComboBox_2.model[index] === cachedTheme) {
-                        //             ufo_ComboBox_2.currentIndex = index;
-                        //             return;
-                        //         }
-                        //     }
-                        // }
-                    }
-
-                    UFO_Button {
-                        width: 120
-                        height: 35
-
-                        text: qsTr("Refresh")
-
-                        // onClicked: {
-                        //     NetworkManager.notifyNetwork()
-                        // }
-                    }
                 }
                 // [[ ---------------------------------------------------------------------- ]]
                 // [[ ---------------------------------------------------------------------- ]]
@@ -685,6 +708,15 @@ ApplicationWindow {
                     }
                 }
             }
+
+            Connections {
+                target: NetworkManager
+
+                function onSynchronizeRequestReceived(data) {
+                    Database.sync(data)
+                }
+            }
+
             // [[ ---------------------------------------------------------------------- ]]
             // [[ ---------------------------------------------------------------------- ]]
             // Connections

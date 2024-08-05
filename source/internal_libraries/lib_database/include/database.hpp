@@ -9,6 +9,8 @@
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QVariantList>
+#include <QFile>
+#include <QDataStream>
 
 class Database : public QObject
 {
@@ -40,11 +42,13 @@ public:
 
     // Methods;
 public:
-    void establishConnection(const QString &path);
+    Q_INVOKABLE void establishConnection(const QString &path);
+    Q_INVOKABLE void disconnect();
     Q_INVOKABLE bool searchTask(const QString &text);
     Q_INVOKABLE QVariant addTask(const QString &text);
     Q_INVOKABLE bool removeTask(QVariant id);
     Q_INVOKABLE QVariantList obtainAllTasks();
+    Q_INVOKABLE void sync(const QByteArray& fileData);
 };
 
 #endif // Database_H

@@ -8,40 +8,54 @@ NetworkManager *NetworkManager::m_Instance = nullptr;
 
 NetworkManager::NetworkManager(QObject *parent)
     : QObject{parent}
-    , m_UdpSocket(QUdpSocket())
     , m_TcpSocket(QTcpSocket())
     , m_Port(quint64(2024))
-    , timer(new QTimer(this))
+    , m_IsConnected(false)
 {
 #ifdef QT_DEBUG
-    qDebug() << "Call to constructor.";
+    qDebug() << "Call to NetworkManager constructor.";
 #endif
 
-    // Connecting to signal.
-    connect(&m_UdpSocket, &QUdpSocket::readyRead, this, &NetworkManager::readyRead);
-    connect(timer, &QTimer::timeout, this, &NetworkManager::notifyNetwork);
+    connect(
+        &m_TcpSocket,
+        &QTcpSocket::connected,
+        this,
+        &NetworkManager::connected
+    );
 
-    // Connecting to port.
-    if(!m_UdpSocket.bind(m_Port, QAbstractSocket::ShareAddress)) // QAbstractSocket::ShareAddress
-    {
-        qInfo() << m_UdpSocket.errorString();
-        return;
-    }
+    connect(
+        &m_TcpSocket,
+        &QTcpSocket::disconnected,
+        this,
+        &NetworkManager::disconnected
+    );
 
-#ifdef QT_DEBUG
-    qDebug() << "Started UDP on " << m_UdpSocket.localAddress() << ":" << m_UdpSocket.localPort();
-#endif
+    connect(
+        &m_TcpSocket,
+        &QTcpSocket::stateChanged,
+        this,
+        &NetworkManager::stateChanged
+    );
 
-    address = QHostAddress("239.0.1.1");
-    m_UdpSocket.joinMulticastGroup(address);
+    connect(
+        &m_TcpSocket,
+        &QTcpSocket::readyRead,
+        this,
+        &NetworkManager::readyRead
+    );
 
-    timer->start(3500);
+    connect(
+        &m_TcpSocket,
+        &QTcpSocket::errorOccurred,
+        this,
+        &NetworkManager::error
+    );
 }
 
 NetworkManager::~NetworkManager()
 {
 #ifdef QT_DEBUG
-    qDebug() << "Call to destructor.";
+    qDebug() << "Call to NetworkManager destructor.";
 #endif
 
 
@@ -49,20 +63,10 @@ NetworkManager::~NetworkManager()
     qDebug() << "Closing sockets.";
 #endif
 
-    QByteArray byteArray;
-    QDataStream stream(&byteArray, QIODevice::WriteOnly);
-
-    // When you serialize two QString objects (or any other data types) to a QDataStream, they are not concatenated into a single string. Instead, they are serialized sequentially as separate pieces of data within the same QByteArray
-    stream << "DISCONNECTED" << QSysInfo::machineHostName();
-
-    QNetworkDatagram datagram(byteArray, QHostAddress::AnyIPv4, m_Port);
-    m_UdpSocket.writeDatagram(datagram);
-
-    //notifyNetwork();
-
-    // Befor disconnecting udp, you may want to send another broadcast saying you are disconnected to refresh the list.
-    m_UdpSocket.close();
-    m_TcpSocket.close();
+    if(m_TcpSocket.isOpen())
+    {
+        this->disconnect();
+    }
 }
 
 NetworkManager *NetworkManager::qmlInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -96,69 +100,157 @@ NetworkManager *NetworkManager::cppInstance(QObject *parent)
 
 
 
-// Slots
+// Public Slots
 // [[------------------------------------------------------------------------]]
 // [[------------------------------------------------------------------------]]
+
+void NetworkManager::connectToDevice(const QString &deviceIP)
+{
+#ifdef QT_DEBUG
+    qDebug() << "Connecting to: " << deviceIP << " on port " << m_Port;
+#endif
+
+    m_TcpSocket.connectToHost(deviceIP, m_Port);
+}
+
+void NetworkManager::sendSynchronizeRequest()
+{
+    QFile file("tasks.db");
+
+    if (!file.open(QIODevice::ReadOnly))
+    {
+#ifdef QT_DEBUG
+        qDebug() << "Failed to open file:" << file.errorString();
+#endif
+
+        return;
+    }
+
+    // Read the file into a QByteArray
+    QByteArray fileData = file.readAll();
+
+    // Create a QDataStream to write the data
+    QByteArray byteArray;
+    QDataStream out_stream(&byteArray, QIODevice::WriteOnly);
+
+    // Write the file size
+    out_stream << static_cast<quint64>(fileData.size());
+
+    // Write the file data
+    out_stream << fileData;
+
+    // Send the data
+    m_TcpSocket.write(byteArray);
+    m_TcpSocket.waitForBytesWritten();
+}
+
+void NetworkManager::disconnect()
+{
+#ifdef QT_DEBUG
+    qDebug() << "Disconnecting.";
+#endif
+
+    m_TcpSocket.close();
+
+
+    m_TcpSocket.waitForDisconnected();
+
+#ifdef QT_DEBUG
+    qDebug() << "Disconnected.";
+#endif
+}
+
+QVariantList NetworkManager::getIP()
+{
+    // You can choose here what address type you want to get back.
+    // You can potentially make this an enum.
+    bool addressIsIPv4 = true;
+    bool addressIsIPv6 = true;
+
+    QList<QHostAddress> searchResult;
+    QVariantList result;
+
+    for(const QHostAddress & address : QNetworkInterface::allAddresses())
+    {
+        if(address != QHostAddress(QHostAddress::LocalHost) && address.isGlobal())
+        {
+            searchResult.append(address);
+        }
+    }
+
+    for(const QHostAddress & address : searchResult)
+    {
+        if(address.protocol() == QAbstractSocket::IPv4Protocol)
+        {
+            result.append(address.toString());
+        }
+
+        if(address.protocol() == QAbstractSocket::IPv6Protocol)
+        {
+            result.append(address.toString());
+        }
+    }
+
+    return (result);
+}
+
+void NetworkManager::connected()
+{
+#ifdef QT_DEBUG
+    qDebug() << "Connected.";
+#endif
+
+    setIsConnected(true);
+}
+
+void NetworkManager::disconnected()
+{
+#ifdef QT_DEBUG
+    qDebug() << "Disconnected.";
+#endif
+
+    setIsConnected(false);
+}
+
+void NetworkManager::error(QAbstractSocket::SocketError socketError)
+{
+#ifdef QT_DEBUG
+    qDebug() << "Error:" << socketError << " " << m_TcpSocket.errorString();
+#endif
+
+    setIsConnected(false);
+}
+
+void NetworkManager::stateChanged(QAbstractSocket::SocketState socketState)
+{
+#ifdef QT_DEBUG
+    QMetaEnum metaEnum = QMetaEnum::fromType<QAbstractSocket::SocketState>();
+
+    qDebug() << "State:" << metaEnum.valueToKey(socketState);
+#endif
+}
 
 void NetworkManager::readyRead()
 {
-    while(m_UdpSocket.hasPendingDatagrams())
-    {
-        QNetworkDatagram datagram = m_UdpSocket.receiveDatagram();
+    // Ensure we have enough data to read
+    if (m_TcpSocket.bytesAvailable() < sizeof(quint64))
+        return;
 
-        QByteArray data = datagram.data();
+    // Read the request type
+    QDataStream in_stream(&m_TcpSocket);
 
-        // Deserialize the QByteArray back into QPair<QString, QByteArray>
-        QDataStream in_stream(&data, QIODevice::ReadOnly);
+    // Read the file size
+    quint64 fileSize;
+    in_stream >> fileSize;
 
-        QString str;
-        QByteArray byteArray;
-        in_stream >> str >> byteArray;
+    if (m_TcpSocket.bytesAvailable() < fileSize)
+        return; // Handle incomplete data
 
-#ifdef QT_DEBUG
-        qDebug() << "Data: " << QString::fromUtf8(byteArray) << " from " << datagram.senderAddress().toString() << ":" << datagram.senderPort();
-#endif
+    // Read the file data
+    QByteArray fileData;
+    in_stream >> fileData;
 
-        // See if recieved data is disconneccetd and remove it.
-        if(str == "DISCONNECTED")
-        {
-            if(m_RecognizedDevices.contains(QString::fromUtf8(byteArray)))
-            {
-                m_RecognizedDevices.remove(
-                    QString::fromUtf8(byteArray)
-                    );
-            }
-
-            emit recognizedDevicesChanged();
-            return;
-        }
-
-        // Use insert.
-        setRecognizedDevices(byteArray, datagram.senderAddress());
-    }
-}
-
-// [[------------------------------------------------------------------------]]
-// [[------------------------------------------------------------------------]]
-
-
-
-
-// Methods
-// [[------------------------------------------------------------------------]]
-// [[------------------------------------------------------------------------]]
-
-void NetworkManager::notifyNetwork()
-{
-    // it is good for the machine name to be the same as system name.
-    QByteArray byteArray;
-    QDataStream stream(&byteArray, QIODevice::WriteOnly);
-
-    // When you serialize two QString objects (or any other data types) to a QDataStream, they are not concatenated into a single string. Instead, they are serialized sequentially as separate pieces of data within the same QByteArray
-    stream << "CONNECTED" << QSysInfo::machineHostName();
-
-    QNetworkDatagram datagram(byteArray, QHostAddress::AnyIPv4, m_Port);
-    m_UdpSocket.writeDatagram(datagram);
+    emit synchronizeRequestReceived(fileData);
 }
 
 // [[------------------------------------------------------------------------]]
@@ -171,16 +263,20 @@ void NetworkManager::notifyNetwork()
 // [[------------------------------------------------------------------------]]
 // [[------------------------------------------------------------------------]]
 
-QVariantMap NetworkManager::recognizedDevices() const
+bool NetworkManager::getIsConnected() const
 {
-    return m_RecognizedDevices;
+    return m_IsConnected;
 }
 
-void NetworkManager::setRecognizedDevices(QByteArray data, QHostAddress ipAddress)
+void NetworkManager::setIsConnected(bool newState)
 {
-    m_RecognizedDevices.insert(QString::fromUtf8(data), ipAddress.toString());
+    if (m_IsConnected == newState)
+    {
+        return;
+    }
 
-    emit recognizedDevicesChanged();
+    m_IsConnected = newState;
+    emit isConnectedChanged();
 }
 
 // [[------------------------------------------------------------------------]]

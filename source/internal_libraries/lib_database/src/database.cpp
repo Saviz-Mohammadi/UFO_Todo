@@ -20,7 +20,7 @@ Database::~Database()
 #endif
 
     // Close the connection to database.
-    m_QSqlDatabase.close();
+    this->disconnect();
 }
 
 Database *Database::qmlInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -96,6 +96,13 @@ void Database::establishConnection(const QString &path)
 #endif
 
     connectionExists = (true);
+}
+
+void Database::disconnect()
+{
+    m_QSqlDatabase.close();
+
+    connectionExists = (false);
 }
 
 bool Database::searchTask(const QString &text)
@@ -207,4 +214,25 @@ QVariantList Database::obtainAllTasks()
     }
 
     return (list);
+}
+
+void Database::sync(const QByteArray& fileData)
+{
+    QString filePath = "tasks.db"; // Define the path where you want to save the file
+    QFile file(filePath);
+
+    // Open the file for writing
+    if (file.open(QIODevice::WriteOnly))
+    {
+        // Write the file data to the file
+        file.write(fileData);
+
+        qDebug() << "File received and saved to" << filePath;
+    }
+    else
+    {
+        qDebug() << "Failed to save file:" << file.errorString();
+    }
+
+    file.close();
 }

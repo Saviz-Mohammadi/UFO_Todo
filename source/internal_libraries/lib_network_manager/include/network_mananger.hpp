@@ -6,9 +6,9 @@
 #include <QQmlEngine>
 #include <QVariantMap>
 #include <QTcpSocket>
-#include <QUdpSocket>
-#include <QNetworkDatagram>
-#include <QTimer>
+#include <QFile>
+#include <QDataStream>
+#include <QNetworkInterface>
 
 class NetworkManager : public QObject
 {
@@ -26,47 +26,48 @@ class NetworkManager : public QObject
 public:
     explicit NetworkManager(QObject *parent = nullptr);
     ~NetworkManager();
+
     static NetworkManager *qmlInstance(QQmlEngine *engine, QJSEngine *scriptEngine);
     static NetworkManager *cppInstance(QObject *parent = nullptr);
 
-    // Q_PROPERTY;
-private:
-    Q_PROPERTY(QVariantMap RecognizedDevices READ recognizedDevices NOTIFY recognizedDevicesChanged)
+    // Properties;
+public:
+    Q_PROPERTY(bool isConnected READ getIsConnected NOTIFY isConnectedChanged)
 
     // Fields;
 private:
     static NetworkManager *m_Instance;
-    QUdpSocket m_UdpSocket;
     QTcpSocket m_TcpSocket;
     quint64 m_Port;
-    QVariantMap m_RecognizedDevices;
-    QTimer *timer;
-    QHostAddress address;
-
-    // Methods;
-public:
-    // Make this have status as well like CONNECTED, DISCONNECTED and read hostname by default instead.
-    Q_INVOKABLE void notifyNetwork();
+    bool m_IsConnected;
 
     // Signals;
 signals:
-    void recognizedDevicesChanged();
+    void isConnectedChanged();
+    void synchronizeRequestReceived(const QByteArray& fileData);
 
     // Public Slots;
 public slots:
+    void connectToDevice(const QString &deviceIP);
+    void sendSynchronizeRequest();
+    void disconnect();
+    QVariantList getIP();
 
     // Private Slots;
 private slots:
+    void connected();
+    void disconnected();
+    void error(QAbstractSocket::SocketError socketError);
+    void stateChanged(QAbstractSocket::SocketState socketState);
     void readyRead();
-
 
     // Getters
 public:
-    QVariantMap recognizedDevices() const;
+    bool getIsConnected() const;
 
     // Setters
-private:
-    void setRecognizedDevices(QByteArray data, QHostAddress ipAddress);
+public:
+    void setIsConnected(bool newState);
 };
 
 #endif // NetworkManager_H
