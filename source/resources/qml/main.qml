@@ -9,6 +9,7 @@ import "ufo"
 import AppTheme 1.0
 import Database 1.0
 import StopTimer 1.0
+import NetworkManager 1.0
 
 
 ApplicationWindow {
@@ -561,6 +562,47 @@ ApplicationWindow {
                               qsTr("THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.")
                         color: Qt.color(AppTheme.Colors["UFO_GroupBox_Text"])
                         wrapMode: Text.WordWrap
+                    }
+
+                    UFO_ComboBox {
+                        id: ufo_ComboBox_2
+
+                        Layout.preferredHeight: 30
+                        Layout.preferredWidth: 300
+
+                        model: Object.keys(NetworkManager.RecognizedDevices)
+                        Layout.bottomMargin: ufo_GroupBox_3.titleTopMargin
+                        Layout.leftMargin: ufo_GroupBox_3.titleLeftMargin
+
+                        // onActivated: {
+                        //     // Grab the text when a new element is selected.
+                        //     AppTheme.loadColorsFromTheme(currentText)
+                        // }
+
+                        // Component.onCompleted: {
+                        //     // Obtain the name of last used Theme.
+                        //     var cachedTheme = AppTheme.cachedTheme()
+
+                        //     // This function looks at every entry, and finds the one that corresponds
+                        //     // to our cachedTheme name. Then it will set the index to that.
+                        //     for (var index = 0; index < ufo_ComboBox_2.model.length; ++index) {
+                        //         if (ufo_ComboBox_2.model[index] === cachedTheme) {
+                        //             ufo_ComboBox_2.currentIndex = index;
+                        //             return;
+                        //         }
+                        //     }
+                        // }
+                    }
+
+                    UFO_Button {
+                        width: 120
+                        height: 35
+
+                        text: qsTr("Refresh")
+
+                        // onClicked: {
+                        //     NetworkManager.notifyNetwork()
+                        // }
                     }
                 }
                 // [[ ---------------------------------------------------------------------- ]]

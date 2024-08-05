@@ -29,6 +29,7 @@ void registerTypes()
     qmlRegisterSingletonType<AppTheme>("AppTheme", 1, 0, "AppTheme", &AppTheme::qmlInstance);
     qmlRegisterSingletonType<Database>("Database", 1, 0, "Database", &Database::qmlInstance);
     qmlRegisterType<StopTimer>("StopTimer", 1, 0, "StopTimer");
+    qmlRegisterSingletonType<NetworkManager>("NetworkManager", 1, 0, "NetworkManager", &NetworkManager::qmlInstance);
 }
 
 void setupThemeSystem()
