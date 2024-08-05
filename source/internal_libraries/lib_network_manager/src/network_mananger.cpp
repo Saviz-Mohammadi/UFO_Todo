@@ -22,7 +22,7 @@ NetworkManager::NetworkManager(QObject *parent)
     connect(timer, &QTimer::timeout, this, &NetworkManager::notifyNetwork);
 
     // Connecting to port.
-    if(!m_UdpSocket.bind(m_Port)) // QAbstractSocket::ShareAddress
+    if(!m_UdpSocket.bind(m_Port, QAbstractSocket::ShareAddress)) // QAbstractSocket::ShareAddress
     {
         qInfo() << m_UdpSocket.errorString();
         return;
@@ -31,6 +31,9 @@ NetworkManager::NetworkManager(QObject *parent)
 #ifdef QT_DEBUG
     qDebug() << "Started UDP on " << m_UdpSocket.localAddress() << ":" << m_UdpSocket.localPort();
 #endif
+
+    address = QHostAddress("239.0.1.1");
+    m_UdpSocket.joinMulticastGroup(address);
 
     timer->start(3500);
 }
@@ -52,7 +55,7 @@ NetworkManager::~NetworkManager()
     // When you serialize two QString objects (or any other data types) to a QDataStream, they are not concatenated into a single string. Instead, they are serialized sequentially as separate pieces of data within the same QByteArray
     stream << "DISCONNECTED" << QSysInfo::machineHostName();
 
-    QNetworkDatagram datagram(byteArray, QHostAddress::Broadcast, m_Port);
+    QNetworkDatagram datagram(byteArray, QHostAddress::AnyIPv4, m_Port);
     m_UdpSocket.writeDatagram(datagram);
 
     //notifyNetwork();
@@ -103,10 +106,6 @@ void NetworkManager::readyRead()
     {
         QNetworkDatagram datagram = m_UdpSocket.receiveDatagram();
 
-#ifdef QT_DEBUG
-        qDebug() << "Data: " << QString::fromUtf8(datagram.data()) << " from " << datagram.senderAddress().toString() << ":" << datagram.senderPort();
-#endif
-
         QByteArray data = datagram.data();
 
         // Deserialize the QByteArray back into QPair<QString, QByteArray>
@@ -117,23 +116,20 @@ void NetworkManager::readyRead()
         in_stream >> str >> byteArray;
 
 #ifdef QT_DEBUG
-        qDebug() << "Data: " << byteArray << " from " << datagram.senderAddress().toString() << ":" << datagram.senderPort();
+        qDebug() << "Data: " << QString::fromUtf8(byteArray) << " from " << datagram.senderAddress().toString() << ":" << datagram.senderPort();
 #endif
 
         // See if recieved data is disconneccetd and remove it.
         if(str == "DISCONNECTED")
         {
-            m_RecognizedDevices.remove(
-                QString::fromUtf8(byteArray)
-            );
+            if(m_RecognizedDevices.contains(QString::fromUtf8(byteArray)))
+            {
+                m_RecognizedDevices.remove(
+                    QString::fromUtf8(byteArray)
+                    );
+            }
 
             emit recognizedDevicesChanged();
-            return;
-        }
-
-        // See if the recieved data alread is in here.
-        if(m_RecognizedDevices.contains(QString::fromUtf8(byteArray)))
-        {
             return;
         }
 
@@ -161,7 +157,7 @@ void NetworkManager::notifyNetwork()
     // When you serialize two QString objects (or any other data types) to a QDataStream, they are not concatenated into a single string. Instead, they are serialized sequentially as separate pieces of data within the same QByteArray
     stream << "CONNECTED" << QSysInfo::machineHostName();
 
-    QNetworkDatagram datagram(byteArray, QHostAddress::Broadcast, m_Port);
+    QNetworkDatagram datagram(byteArray, QHostAddress::AnyIPv4, m_Port);
     m_UdpSocket.writeDatagram(datagram);
 }
 

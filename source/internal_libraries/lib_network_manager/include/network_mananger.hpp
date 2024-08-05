@@ -41,6 +41,7 @@ private:
     quint64 m_Port;
     QVariantMap m_RecognizedDevices;
     QTimer *timer;
+    QHostAddress address;
 
     // Methods;
 public:
