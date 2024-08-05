@@ -9,7 +9,6 @@ import "ufo"
 import AppTheme 1.0
 import Database 1.0
 import StopTimer 1.0
-import NetworkManager 1.0
 
 
 ApplicationWindow {
@@ -478,70 +477,6 @@ ApplicationWindow {
                         }
                     }
                 }
-
-                UFO_GroupBox {
-                    id: ufo_GroupBox_5
-
-                    Layout.fillWidth: true
-                    // No point setting the "Layout.fillHeight" as "UFO_Page" ignores height to enable vertical scrolling.
-
-                    title: qsTr("Style")
-                    contentSpacing: 10
-
-                    Text {
-                        id: text_10
-
-                        Layout.preferredWidth: ufo_GroupBox_5.width - 50
-
-                        Layout.topMargin: 20
-                        Layout.bottomMargin: ufo_GroupBox_5.titleTopMargin
-                        Layout.leftMargin: ufo_GroupBox_5.titleLeftMargin
-                        text: NetworkManager.isConnected ? qsTr("Connected") : qsTr("Disconnected")
-                        color: Qt.color(AppTheme.Colors["UFO_GroupBox_Text"])
-                        wrapMode: Text.WordWrap
-                    }
-
-                    UFO_TextField {
-                        id: ufo_TextField_3
-
-                        placeholderText: qsTr("e.g 127.0.0.1")
-
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 45
-
-                        Layout.bottomMargin: 5
-
-                        // When "Enter" key is pressed.
-                        onAccepted: {
-
-                            // Probably put a regex here as well for validation.
-                            NetworkManager.connectToDevice(ufo_TextField_3.text)
-
-                            ufo_TextField_1.clear()
-                        }
-                    }
-
-                    UFO_Button {
-                        width: 120
-                        height: 35
-
-                        text: qsTr("Send sync request")
-
-                        enabled: NetworkManager.isConnected ? true : false
-
-                        onClicked: {
-                            NetworkManager.sendSynchronizeRequest();
-                        }
-                    }
-                }
-
-                Component.onCompleted: {
-                    var list = NetworkManager.getIP()
-
-                    for (var i = 0; i < list.length; i++) {
-                        console.log(list[i])
-                    }
-                }
             }
             // [[ ---------------------------------------------------------------------- ]]
             // [[ ---------------------------------------------------------------------- ]]
@@ -706,14 +641,6 @@ ApplicationWindow {
                         default:
                             stackLayout_1.currentIndex = 3;
                     }
-                }
-            }
-
-            Connections {
-                target: NetworkManager
-
-                function onSynchronizeRequestReceived(data) {
-                    Database.sync(data)
                 }
             }
 

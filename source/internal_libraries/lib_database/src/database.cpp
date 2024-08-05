@@ -215,24 +215,3 @@ QVariantList Database::obtainAllTasks()
 
     return (list);
 }
-
-void Database::sync(const QByteArray& fileData)
-{
-    QString filePath = "tasks.db"; // Define the path where you want to save the file
-    QFile file(filePath);
-
-    // Open the file for writing
-    if (file.open(QIODevice::WriteOnly))
-    {
-        // Write the file data to the file
-        file.write(fileData);
-
-        qDebug() << "File received and saved to" << filePath;
-    }
-    else
-    {
-        qDebug() << "Failed to save file:" << file.errorString();
-    }
-
-    file.close();
-}
