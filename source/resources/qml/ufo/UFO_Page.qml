@@ -5,7 +5,6 @@ import QtQuick.Layouts
 // Custom CPP Registered Types
 import AppTheme 1.0
 
-
 Item {
     id: root
 
@@ -26,7 +25,7 @@ Item {
 
         anchors.fill: parent
 
-        color: Qt.color(AppTheme.Colors["UFO_Page_Background"])
+        color: Qt.color(AppTheme.colors["UFO_Page_Background"])
 
         ScrollView {
             id: scrollView_1
@@ -43,7 +42,6 @@ Item {
             // If you want to enable horizontal scrolling, then it is best to place the target elemnt inside of another ScrollView.
             // This is because even if you want to achieve horizontal scrolling, ScrollView will only affect the element that it
             // immediately contains. So, even if you don't use "contentWidth: -1", then it will still not work.
-
             ColumnLayout {
                 id: columnLayout_1
 
@@ -59,7 +57,7 @@ Item {
                     text: qsTr("")
                     horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
-                    color: Qt.color(AppTheme.Colors["UFO_Page_Title"])
+                    color: Qt.color(AppTheme.colors["UFO_Page_Title"])
                     font.pixelSize: Qt.application.font.pixelSize * titleFontSize // Read-only property. Holds the default application font returned by QGuiApplication::font()
                     elide: Text.ElideRight
                 }

@@ -5,7 +5,6 @@ import QtQuick.Layouts
 // Custom CPP Registered Types
 import AppTheme 1.0
 
-
 MenuBar {
     id: root
 
@@ -20,6 +19,6 @@ MenuBar {
         implicitWidth: 40
         implicitHeight: 28
 
-        color: Qt.color(AppTheme.Colors["UFO_MenuBar_Background"])
+        color: Qt.color(AppTheme.colors["UFO_MenuBar_Background"])
     }
 }

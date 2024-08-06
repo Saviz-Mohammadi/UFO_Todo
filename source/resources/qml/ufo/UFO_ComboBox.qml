@@ -5,7 +5,6 @@ import QtQuick.Layouts
 // Custom CPP Registered Types
 import AppTheme 1.0
 
-
 ComboBox {
     id: root
 
@@ -19,7 +18,7 @@ ComboBox {
             id: text_1
 
             text: modelData
-            color: Qt.color(AppTheme.Colors["UFO_ComboBox_Item_Text"])
+            color: Qt.color(AppTheme.colors["UFO_ComboBox_Item_Text"])
             font: root.font
             elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
@@ -32,7 +31,8 @@ ComboBox {
             radius: 4
 
             width: root.width
-            color: itemDelegate_1.highlighted ? Qt.color(AppTheme.Colors["UFO_ComboBox_Item_Background_Highlighted"]) : Qt.color(AppTheme.Colors["UFO_ComboBox_Item_Background_Normal"])
+            color: itemDelegate_1.highlighted ? Qt.color(
+                                                    AppTheme.colors["UFO_ComboBox_Item_Background_Highlighted"]) : Qt.color(AppTheme.colors["UFO_ComboBox_Item_Background_Normal"])
         }
 
         highlighted: root.highlightedIndex === index
@@ -46,7 +46,9 @@ ComboBox {
 
         text: root.displayText
         font: root.font
-        color: root.pressed ? Qt.color(AppTheme.Colors["UFO_ComboBox_Text_Pressed"]) : Qt.color(AppTheme.Colors["UFO_ComboBox_Text_Normal"])
+        color: root.pressed ? Qt.color(
+                                  AppTheme.colors["UFO_ComboBox_Text_Pressed"]) : Qt.color(
+                                  AppTheme.colors["UFO_ComboBox_Text_Normal"])
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
     }
@@ -57,8 +59,10 @@ ComboBox {
         implicitWidth: 120
         implicitHeight: 40
 
-        color: Qt.color(AppTheme.Colors["UFO_ComboBox_Background"])
-        border.color: root.pressed ? Qt.color(AppTheme.Colors["UFO_ComboBox_Border_Pressed"]) : Qt.color(AppTheme.Colors["UFO_ComboBox_Border_Normal"])
+        color: Qt.color(AppTheme.colors["UFO_ComboBox_Background"])
+        border.color: root.pressed ? Qt.color(
+                                         AppTheme.colors["UFO_ComboBox_Border_Pressed"]) : Qt.color(
+                                         AppTheme.colors["UFO_ComboBox_Border_Normal"])
         border.width: root.visualFocus ? 2 : 1
         radius: 4
     }
@@ -76,17 +80,22 @@ ComboBox {
         Connections {
             target: root
 
-            function onPressedChanged() { canvas_1.requestPaint(); }
+            function onPressedChanged() {
+                canvas_1.requestPaint()
+            }
         }
 
         onPaint: {
-            context.reset();
-            context.moveTo(0, 0);
-            context.lineTo(width, 0);
-            context.lineTo(width / 2, height);
-            context.closePath();
-            context.fillStyle = root.pressed ? Qt.color(AppTheme.Colors["UFO_ComboBox_Arrow_Background_Pressed"]) : Qt.color(AppTheme.Colors["UFO_ComboBox_Arrow_Background_Normal"]);
-            context.fill();
+            context.reset()
+            context.moveTo(0, 0)
+            context.lineTo(width, 0)
+            context.lineTo(width / 2, height)
+            context.closePath()
+            context.fillStyle
+                    = root.pressed ? Qt.color(
+                                         AppTheme.colors["UFO_ComboBox_Arrow_Background_Pressed"]) : Qt.color(
+                                         AppTheme.colors["UFO_ComboBox_Arrow_Background_Normal"])
+            context.fill()
         }
     }
 
@@ -114,8 +123,9 @@ ComboBox {
         background: Rectangle {
             id: rectangle_3
 
-            color: Qt.color(AppTheme.Colors["UFO_ComboBox_Popup_Background"])
-            border.color: Qt.color(AppTheme.Colors["UFO_ComboBox_DropBox_Border"])
+            color: Qt.color(AppTheme.colors["UFO_ComboBox_Popup_Background"])
+            border.color: Qt.color(
+                              AppTheme.colors["UFO_ComboBox_DropBox_Border"])
             radius: 4
         }
     }

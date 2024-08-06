@@ -5,7 +5,6 @@ import QtQuick.Layouts
 // Custom CPP Registered Types
 import AppTheme 1.0
 
-
 Item {
     id: root
 
@@ -23,7 +22,7 @@ Item {
 
         anchors.fill: parent
 
-        color: Qt.color(AppTheme.Colors["UFO_SideBar_Background"])
+        color: Qt.color(AppTheme.colors["UFO_SideBar_Background"])
 
         ColumnLayout {
             id: columnLayout_1
@@ -104,7 +103,6 @@ Item {
             // We could place the entire section below inside the "ScrollView" in the above section.
             // This would simplify our structure. However, I think it's beneficial to always have
             // tabs like "Settings" and "About" visible at the bottom.
-
             Item {
                 id: item_1
 

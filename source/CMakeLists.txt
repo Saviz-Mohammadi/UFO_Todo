@@ -159,8 +159,8 @@ set(RESOURCE_TXT_FILES
 set(RESOURCE_JSON_FILES
 
     "${BASE_JSON_LOCATION}/placeholder.json"
-    "${BASE_JSON_LOCATION}/theme_ufo/light.json"
-    "${BASE_JSON_LOCATION}/theme_ufo/dark.json")
+    "${BASE_JSON_LOCATION}/themes/theme_ufo/ufo_light.json"
+    "${BASE_JSON_LOCATION}/themes/theme_ufo/ufo_dark.json")
 
 
 # Make sure to prefix the path with ${BASE_ICON_LOCATION}.

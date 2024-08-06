@@ -5,7 +5,6 @@ import QtQuick.Layouts
 // Custom CPP Registered Types
 import AppTheme 1.0
 
-
 Item {
     id: root
 
@@ -24,7 +23,7 @@ Item {
 
         anchors.fill: parent
 
-        color: Qt.color(AppTheme.Colors["UFO_GroupBox_Background"])
+        color: Qt.color(AppTheme.colors["UFO_GroupBox_Background"])
 
         radius: 4
 
@@ -42,7 +41,7 @@ Item {
                 text: qsTr("")
                 horizontalAlignment: Text.AlignLeft
                 verticalAlignment: Text.AlignVCenter
-                color: Qt.color(AppTheme.Colors["UFO_GroupBox_Title"])
+                color: Qt.color(AppTheme.colors["UFO_GroupBox_Title"])
                 font.pixelSize: Qt.application.font.pixelSize * titleFontSize // Read-only property. Holds the default application font returned by QGuiApplication::font()
                 elide: Text.ElideRight
             }
@@ -53,7 +52,7 @@ Item {
                 Layout.preferredWidth: root.width
                 Layout.preferredHeight: 1
 
-                color: Qt.color(AppTheme.Colors["UFO_GroupBox_Separator"])
+                color: Qt.color(AppTheme.colors["UFO_GroupBox_Separator"])
             }
         }
     }

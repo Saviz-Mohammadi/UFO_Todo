@@ -34,7 +34,8 @@ Item {
             anchors.centerIn: parent
 
             visible: false
-            color: Qt.color(AppTheme.Colors["UFO_MenuItemIndicator_Background_Checked"])
+            color: Qt.color(
+                       AppTheme.colors["UFO_MenuItemIndicator_Background_Checked"])
             radius: 0
         }
     }

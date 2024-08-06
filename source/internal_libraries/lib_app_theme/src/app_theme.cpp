@@ -2,11 +2,43 @@
 
 AppTheme* AppTheme::m_Instance = nullptr;
 
-AppTheme::AppTheme(QObject *parent)
+// Constructors, Initializers, Destructor
+// [[------------------------------------------------------------------------]]
+// [[------------------------------------------------------------------------]]
+
+AppTheme::AppTheme(QObject *parent, const QString& name)
     : QObject{parent}
     , m_Colors()
     , m_Themes()
-{}
+{
+    this->setObjectName(name);
+
+
+
+// Debugging
+#ifdef QT_DEBUG
+    qDebug() << "\n**************************************************\n"
+             << "* Object Name :" << this->objectName()  << "\n"
+             << "* Function    :" << __FUNCTION__        << "\n"
+             << "* Message     : Call to Constructor"
+             << "\n**************************************************\n\n";
+#endif
+}
+
+AppTheme::~AppTheme()
+{
+
+
+
+// Debugging
+#ifdef QT_DEBUG
+    qDebug() << "\n**************************************************\n"
+             << "* Object Name :" << this->objectName()  << "\n"
+             << "* Function    :" << __FUNCTION__        << "\n"
+             << "* Message     : Call to Destructor"
+             << "\n**************************************************\n\n";
+#endif
+}
 
 AppTheme *AppTheme::qmlInstance(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
@@ -33,117 +65,142 @@ AppTheme *AppTheme::cppInstance(QObject *parent)
     return(instance);
 }
 
-AppTheme::~AppTheme()
-{}
-
-QVariantMap AppTheme::themes() const
-{
-    return (m_Themes);
-}
-
-QVariantMap AppTheme::colors() const
-{
-    return (m_Colors);
-}
-
-// This method allows us to store the last used theme in an INI file for future use.
-// Caching is enabled by default; however, the choice to use the cache is yours.
-void AppTheme::cacheTheme(const QString &themeKey)
-{
-    QSettings settings(
-
-        QGuiApplication::applicationDirPath() + "/cache/theme.ini",
-        QSettings::Format::IniFormat
-        );
-
-    settings.setValue(
-
-        "lastUsedThemeKey",
-        themeKey
-        );
-
-    settings.sync();
-}
-
-// This method will load the last Theme used;
-QString AppTheme::cachedTheme() const
-{
-    QSettings settings(
-
-        QGuiApplication::applicationDirPath() + "/cache/theme.ini",
-        QSettings::Format::IniFormat
-        );
-
-    QVariant returnValue = settings.value("lastUsedThemeKey");
+// [[------------------------------------------------------------------------]]
+// [[------------------------------------------------------------------------]]
 
 
-    if(returnValue.isNull())
-    {
-        return "";
-    }
 
 
-    return returnValue.toString();
-}
 
-void AppTheme::clearCache()
-{
-    QSettings settings(
+// PUBLIC Methods
+// [[------------------------------------------------------------------------]]
+// [[------------------------------------------------------------------------]]
 
-        QGuiApplication::applicationDirPath() + "/cache/theme.ini",
-        QSettings::Format::IniFormat
-        );
-
-    settings.clear();
-}
-
-void AppTheme::addTheme(const QString &themeName, const QString &filePath)
+void AppTheme::addTheme(const QString &filePath)
 {
     QFile file(filePath);
+    QFileInfo fileInfo(file);
 
     if (!file.exists())
     {
-        qDebug() << "File does not exist: " << filePath;
+// Debugging
+#ifdef QT_DEBUG
+        qDebug() << "\n**************************************************\n"
+                 << "* Object Name :" << this->objectName()  << "\n"
+                 << "* Function    :" << __FUNCTION__        << "\n"
+                 << "* Message     : File does not exist: "  << fileInfo.absolutePath()
+                 << "\n**************************************************\n\n";
+#endif
+
+
 
         return;
     }
 
-    if (themeName.isEmpty())
+    bool fileTypeIsJson = (fileInfo.suffix().compare("json", Qt::CaseInsensitive) == 0);
+
+    if (!fileTypeIsJson)
     {
-        qDebug() << "Provided Theme name is empty! Please provide a non-empty name.";
+// Debugging
+#ifdef QT_DEBUG
+        qDebug() << "\n**************************************************\n"
+                 << "* Object Name :" << this->objectName()     << "\n"
+                 << "* Function    :" << __FUNCTION__           << "\n"
+                 << "* Message     : File is not a JSON file! " << fileInfo.fileName()
+                 << "* Full Path   : " << fileInfo.absolutePath()
+                 << "\n**************************************************\n\n";
+#endif
+
+
 
         return;
     }
 
-    // You can add more rules for how the QString should look
-    // here by using Regex if you wish to;
 
-    m_Themes.insert(themeName, filePath);
+
+    // You can add more rules for fileName here using Regex.
+
+
+
+// Debugging
+#ifdef QT_DEBUG
+    qDebug() << "\n**************************************************\n"
+             << "* Object Name :" << this->objectName()     << "\n"
+             << "* Function    :" << __FUNCTION__           << "\n"
+             << "* Message     : JSON file found! " << fileInfo.fileName()
+             << "\n**************************************************\n\n";
+#endif
+
+
+
+    m_Themes.insert(fileInfo.baseName(), filePath);
+
+    emit themesChanged();
+}
+
+void AppTheme::addThemes(const QString &rootFolderPath)
+{
+    QDirIterator iterator(
+        rootFolderPath,               // Start location
+        {"*.json"},                   // File name pattern
+        QDir::Files,                  // Filter for files
+        QDirIterator::Subdirectories  // Perform recursively
+    );
+
+    while (iterator.hasNext())
+    {
+        addTheme(
+            iterator.next()
+        );
+    }
 }
 
 void AppTheme::loadColorsFromTheme(const QString &themeKey)
 {
     QVariantMap map;
-    QString filePath = themes().value(themeKey).toString();
+    QString filePath = getThemes().value(themeKey).toString();
 
 
-    // Saving to cache;
     cacheTheme(themeKey);
 
 
-    QFile themeFile(filePath);
-    QFile placeholderFile("./resources/json/placeholder.json");
+    QFile themeFile(
+        filePath
+    );
+
+    QFile placeholderFile(
+        "./resources/json/placeholder.json"
+    );
+
 
     if (!themeFile.open(QIODevice::ReadOnly))
     {
-        qWarning() << "Could not open JSON file:" << filePath;
+// Debugging
+#ifdef QT_DEBUG
+        qDebug() << "\n**************************************************\n"
+                 << "* Object Name :" << this->objectName()      << "\n"
+                 << "* Function    :" << __FUNCTION__            << "\n"
+                 << "* Message     : Could not open JSON file: " << QFileInfo(themeFile).filePath()
+                 << "\n**************************************************\n\n";
+#endif
+
+
 
         return;
     }
 
     if (!placeholderFile.open(QIODevice::ReadOnly))
     {
-        qWarning() << "Could not open JSON file:" << "placeholder.json";
+// Debugging
+#ifdef QT_DEBUG
+        qDebug() << "\n**************************************************\n"
+                 << "* Object Name :" << this->objectName()                  << "\n"
+                 << "* Function    :" << __FUNCTION__                        << "\n"
+                 << "* Message     : Could not open Placeholder JSON file: " << QFileInfo(placeholderFile).filePath()
+                 << "\n**************************************************\n\n";
+#endif
+
+
 
         return;
     }
@@ -156,14 +213,13 @@ void AppTheme::loadColorsFromTheme(const QString &themeKey)
     placeholderFile.close();
 
 
-    QString resolvedJson = resolvePlaceholders(themeJsonData, placeholderJsonData);
+    QString resolvedJson = resolvePlaceholders(
+        themeJsonData,
+        placeholderJsonData
+    );
 
 
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(
-
-        resolvedJson.toUtf8()
-        );
-
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(resolvedJson.toUtf8());
     QJsonObject rootObject = jsonDoc.object();
 
     for (auto it = rootObject.begin(); it != rootObject.end(); ++it)
@@ -171,38 +227,48 @@ void AppTheme::loadColorsFromTheme(const QString &themeKey)
         map[it.key()] = it.value().toString();
     }
 
-    // Making a safety check, then emitting change;
-    if (m_Colors == map) { return; }
-
-    // Setting new set of colors;
-    m_Colors = map;
-
-    // Syncronizing changes across application;
-    emit colorsChanged();
+    setColors(map);
 }
 
+// [[------------------------------------------------------------------------]]
+// [[------------------------------------------------------------------------]]
 
-// This method is luxury and can be discarded if wanted. This a nice method that
-// enables creating temporary placeholders in json files and relpace them with
-// their actual vaule using Regex string manipulation;
+
+
+
+
+// PRIVATE Methods
+// [[------------------------------------------------------------------------]]
+// [[------------------------------------------------------------------------]]
+
+void AppTheme::cacheTheme(const QString &themeKey)
+{
+    QSettings settings(
+
+        "./cache/theme.ini",
+        QSettings::Format::IniFormat
+    );
+
+    settings.setValue(
+
+        "lastUsedThemeKey",
+        themeKey
+    );
+
+    settings.sync();
+}
+
 QString AppTheme::resolvePlaceholders(const QString &themeJson, const QString &placeholderJson)
 {
-    QJsonObject themeJsonObject = QJsonDocument::fromJson(
+    QJsonObject themeJsonObject = QJsonDocument::fromJson(themeJson.toUtf8()).object();
+    QJsonObject placeholderJsonObject = QJsonDocument::fromJson(placeholderJson.toUtf8()).object();
 
-        themeJson.toUtf8()
-        ).object();
 
-    QJsonObject placeholderJsonObject = QJsonDocument::fromJson(
-
-        placeholderJson.toUtf8()
-        ).object();
-
-    // Final version of the theme after replacing placeholders;
     QString resolvedThemeString = themeJson;
 
 
-    // This Regex pattern is used to match placeholders that have the following pattern:
-    // "Color_char*_numbers[0-9]";
+    // Regex pattern matches placeholders with the following pattern:
+    // "Color_<name>_numbers[0-9]";
     static const QRegularExpression placeholderRegex("\"(Color_[a-zA-Z]*_[0-9]+)\"");
 
     QRegularExpressionMatchIterator iter = placeholderRegex.globalMatch(themeJson);
@@ -222,14 +288,90 @@ QString AppTheme::resolvePlaceholders(const QString &themeJson, const QString &p
 
                 placeholder,
                 replacementValue.toString()
-                );
+            );
         }
 
         else
         {
-            qDebug() << "Placeholder" << placeholder << "not found in placeholder.json file.";
+// Debugging
+#ifdef QT_DEBUG
+            qDebug() << "\n**************************************************\n\n"
+                     << "* Object Name :" << this->objectName()        << "\n"
+                     << "* Function    :" << __FUNCTION__              << "\n"
+                     << "* Message     : Placeholder: " << placeholder << "not found!"
+                     << "\n**************************************************\n\n";
+#endif
+
+
+
         }
     }
 
     return (resolvedThemeString);
 }
+
+// [[------------------------------------------------------------------------]]
+// [[------------------------------------------------------------------------]]
+
+
+
+
+
+// PUBLIC Getters
+// [[------------------------------------------------------------------------]]
+// [[------------------------------------------------------------------------]]
+
+QVariantMap AppTheme::getThemes() const
+{
+    return (m_Themes);
+}
+
+QVariantMap AppTheme::getColors() const
+{
+    return (m_Colors);
+}
+
+QString AppTheme::getCachedTheme() const
+{
+    QSettings settings(
+
+        "./cache/theme.ini",
+        QSettings::Format::IniFormat
+    );
+
+    QVariant returnValue = settings.value("lastUsedThemeKey");
+
+
+    if(returnValue.isNull())
+    {
+        return "";
+    }
+
+
+    return (returnValue.toString());
+}
+
+// [[------------------------------------------------------------------------]]
+// [[------------------------------------------------------------------------]]
+
+
+
+
+
+// PRIVATE Setters
+// [[------------------------------------------------------------------------]]
+// [[------------------------------------------------------------------------]]
+
+void AppTheme::setColors(const QVariantMap &newColors)
+{
+    if (m_Colors == newColors)
+    {
+        return;
+    }
+
+    m_Colors = newColors;
+    emit colorsChanged();
+}
+
+// [[------------------------------------------------------------------------]]
+// [[------------------------------------------------------------------------]]

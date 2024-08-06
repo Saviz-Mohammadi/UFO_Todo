@@ -10,7 +10,6 @@ import AppTheme 1.0
 import Database 1.0
 import StopTimer 1.0
 
-
 ApplicationWindow {
     id: root
 
@@ -20,9 +19,6 @@ ApplicationWindow {
     visible: true
     title: qsTr("UFO_Todo")
 
-
-
-
     // MenuBar
     // [[ ---------------------------------------------------------------------- ]]
     // [[ ---------------------------------------------------------------------- ]]
@@ -30,9 +26,6 @@ ApplicationWindow {
         id: ufo_MenuBar_1
 
         spacing: 0
-
-
-
 
         // File
         // [[ ---------------------------------------------------------------------- ]]
@@ -59,9 +52,6 @@ ApplicationWindow {
         // [[ ---------------------------------------------------------------------- ]]
         // [[ ---------------------------------------------------------------------- ]]
         // File
-
-
-
 
         // View
         // [[ ---------------------------------------------------------------------- ]]
@@ -146,9 +136,6 @@ ApplicationWindow {
         // [[ ---------------------------------------------------------------------- ]]
         // View
 
-
-
-
         // Help
         // [[ ---------------------------------------------------------------------- ]]
         // [[ ---------------------------------------------------------------------- ]]
@@ -179,9 +166,6 @@ ApplicationWindow {
     // [[ ---------------------------------------------------------------------- ]]
     // MenuBar
 
-
-
-
     // Footer
     // [[ ---------------------------------------------------------------------- ]]
     // [[ ---------------------------------------------------------------------- ]]
@@ -194,9 +178,6 @@ ApplicationWindow {
     // [[ ---------------------------------------------------------------------- ]]
     // Footer
 
-
-
-
     // SplitView
     // [[ ---------------------------------------------------------------------- ]]
     // [[ ---------------------------------------------------------------------- ]]
@@ -204,9 +185,6 @@ ApplicationWindow {
         id: splitView_1
 
         anchors.fill: parent
-
-
-
 
         // SideBar
         // [[ ---------------------------------------------------------------------- ]]
@@ -221,9 +199,6 @@ ApplicationWindow {
         // [[ ---------------------------------------------------------------------- ]]
         // SideBar
 
-
-
-
         // StackLayout
         // [[ ---------------------------------------------------------------------- ]]
         // [[ ---------------------------------------------------------------------- ]]
@@ -234,9 +209,6 @@ ApplicationWindow {
             Layout.fillHeight: true
 
             currentIndex: 0
-
-
-
 
             // Task List
             // [[ ---------------------------------------------------------------------- ]]
@@ -249,9 +221,6 @@ ApplicationWindow {
 
                 contentSpacing: 25
                 title: qsTr("Task List")
-
-
-
 
                 // TextField
                 // [[ ---------------------------------------------------------------------- ]]
@@ -268,11 +237,12 @@ ApplicationWindow {
 
                     // When "Enter" key is pressed.
                     onAccepted: {
-                        var id = Database.addTask(ufo_TextField_1.text);
+                        var id = Database.addTask(ufo_TextField_1.text)
 
-                        listModel_1.append(
-                            {task_id: id, task_description: ufo_TextField_1.text}
-                        )
+                        listModel_1.append({
+                                               "task_id": id,
+                                               "task_description": ufo_TextField_1.text
+                                           })
 
                         ufo_TextField_1.clear()
                     }
@@ -280,9 +250,6 @@ ApplicationWindow {
                 // [[ ---------------------------------------------------------------------- ]]
                 // [[ ---------------------------------------------------------------------- ]]
                 // TextField
-
-
-
 
                 // List
                 // [[ ---------------------------------------------------------------------- ]]
@@ -301,12 +268,13 @@ ApplicationWindow {
 
                         // For the very first time, load all tasks from database.
                         Component.onCompleted: {
-                            Database.obtainAllTasks().forEach(function(task) {
+                            Database.obtainAllTasks().forEach(function (task) {
 
-                                listModel_1.append(
-                                    {task_id: task.id, task_description: task.task}
-                                );
-                            });
+                                listModel_1.append({
+                                                       "task_id": task.id,
+                                                       "task_description": task.task
+                                                   })
+                            })
                         }
                     }
 
@@ -316,30 +284,24 @@ ApplicationWindow {
                         width: listView_1.width
 
                         // Change background color of ListDelegate per each row.
-                        backgroundColor: index % 2 === 0 ? Qt.color(AppTheme.Colors["UFO_ListDelegate_Background_1"]) : Qt.color(AppTheme.Colors["UFO_ListDelegate_Background_2"])
+                        backgroundColor: index % 2 === 0 ? Qt.color(
+                                                               AppTheme.colors["UFO_ListDelegate_Background_1"]) : Qt.color(AppTheme.colors["UFO_ListDelegate_Background_2"])
 
                         description: model.task_description
 
                         onDeleteClicked: {
-                            Database.removeTask(model.task_id);
-                            listModel_1.remove(index);
+                            Database.removeTask(model.task_id)
+                            listModel_1.remove(index)
                         }
                     }
                 }
                 // [[ ---------------------------------------------------------------------- ]]
                 // [[ ---------------------------------------------------------------------- ]]
                 // List
-
-
-
-
             }
             // [[ ---------------------------------------------------------------------- ]]
             // [[ ---------------------------------------------------------------------- ]]
             // Task List
-
-
-
 
             // Timer
             // [[ ---------------------------------------------------------------------- ]]
@@ -354,13 +316,9 @@ ApplicationWindow {
                 contentWidth: 1.0
                 title: qsTr("Timer")
 
-
-
-
                 // Timer
                 // [[ ---------------------------------------------------------------------- ]]
                 // [[ ---------------------------------------------------------------------- ]]
-
                 Flow {
                     Layout.fillWidth: true
 
@@ -400,17 +358,10 @@ ApplicationWindow {
                 // [[ ---------------------------------------------------------------------- ]]
                 // [[ ---------------------------------------------------------------------- ]]
                 // Timer
-
-
-
-
             }
             // [[ ---------------------------------------------------------------------- ]]
             // [[ ---------------------------------------------------------------------- ]]
             // Timer
-
-
-
 
             // Settings
             // [[ ---------------------------------------------------------------------- ]]
@@ -429,8 +380,8 @@ ApplicationWindow {
                     id: ufo_GroupBox_1
 
                     Layout.fillWidth: true
-                    // No point setting the "Layout.fillHeight" as "UFO_Page" ignores height to enable vertical scrolling.
 
+                    // No point setting the "Layout.fillHeight" as "UFO_Page" ignores height to enable vertical scrolling.
                     title: qsTr("Style")
                     contentSpacing: 10
 
@@ -443,7 +394,7 @@ ApplicationWindow {
                         Layout.bottomMargin: ufo_GroupBox_1.titleTopMargin
                         Layout.leftMargin: ufo_GroupBox_1.titleLeftMargin
                         text: qsTr("The theme will be cached and loaded on application launch.")
-                        color: Qt.color(AppTheme.Colors["UFO_GroupBox_Text"])
+                        color: Qt.color(AppTheme.colors["UFO_GroupBox_Text"])
                         wrapMode: Text.WordWrap
                     }
 
@@ -453,7 +404,7 @@ ApplicationWindow {
                         Layout.preferredHeight: 30
                         Layout.preferredWidth: 100
 
-                        model: Object.keys(AppTheme.Themes)
+                        model: Object.keys(AppTheme.themes)
                         Layout.bottomMargin: ufo_GroupBox_4.titleTopMargin
                         Layout.leftMargin: ufo_GroupBox_4.titleLeftMargin
 
@@ -463,15 +414,21 @@ ApplicationWindow {
                         }
 
                         Component.onCompleted: {
-                            // Obtain the name of last used Theme.
-                            var cachedTheme = AppTheme.cachedTheme()
 
-                            // This function looks at every entry, and finds the one that corresponds
-                            // to our cachedTheme name. Then it will set the index to that.
+                            var cachedTheme = AppTheme.getCachedTheme()
+
                             for (var index = 0; index < ufo_ComboBox_1.model.length; ++index) {
+
+                                if (cachedTheme === ""
+                                        && ufo_ComboBox_1.model[index] === "ufo_light") {
+
+                                    ufo_ComboBox_1.currentIndex = index
+                                    break
+                                }
+
                                 if (ufo_ComboBox_1.model[index] === cachedTheme) {
-                                    ufo_ComboBox_1.currentIndex = index;
-                                    return;
+                                    ufo_ComboBox_1.currentIndex = index
+                                    break
                                 }
                             }
                         }
@@ -481,9 +438,6 @@ ApplicationWindow {
             // [[ ---------------------------------------------------------------------- ]]
             // [[ ---------------------------------------------------------------------- ]]
             // Settings
-
-
-
 
             // About
             // [[ ---------------------------------------------------------------------- ]]
@@ -497,9 +451,6 @@ ApplicationWindow {
                 title: qsTr("About Application")
                 contentSpacing: 20
 
-
-
-
                 // Application Name and Version
                 // [[ ---------------------------------------------------------------------- ]]
                 // [[ ---------------------------------------------------------------------- ]]
@@ -507,8 +458,8 @@ ApplicationWindow {
                     id: ufo_GroupBox_2
 
                     Layout.fillWidth: true
-                    // No point setting the "Layout.fillHeight" as "UFO_Page" ignores height to enable vertical scrolling.
 
+                    // No point setting the "Layout.fillHeight" as "UFO_Page" ignores height to enable vertical scrolling.
                     title: qsTr("Application Name and Version")
                     contentSpacing: 10
 
@@ -520,18 +471,15 @@ ApplicationWindow {
                         Layout.topMargin: 20
                         Layout.bottomMargin: ufo_GroupBox_2.titleTopMargin
                         Layout.leftMargin: ufo_GroupBox_2.titleLeftMargin
-                        text: qsTr("Name: UFO_Todo")+ "\n" +
-                              qsTr("Version: 0.0.1 Beta")
-                        color: Qt.color(AppTheme.Colors["UFO_GroupBox_Text"])
+                        text: qsTr("Name: UFO_Todo") + "\n" + qsTr(
+                                  "Version: 0.0.1 Beta")
+                        color: Qt.color(AppTheme.colors["UFO_GroupBox_Text"])
                         wrapMode: Text.WordWrap
                     }
                 }
                 // [[ ---------------------------------------------------------------------- ]]
                 // [[ ---------------------------------------------------------------------- ]]
                 // Application Name and Version
-
-
-
 
                 // Software License
                 // [[ ---------------------------------------------------------------------- ]]
@@ -540,8 +488,8 @@ ApplicationWindow {
                     id: ufo_GroupBox_3
 
                     Layout.fillWidth: true
-                    // No point setting the "Layout.fillHeight" as "UFO_Page" ignores height to enable vertical scrolling.
 
+                    // No point setting the "Layout.fillHeight" as "UFO_Page" ignores height to enable vertical scrolling.
                     title: qsTr("Software License")
                     contentSpacing: 10
 
@@ -553,22 +501,18 @@ ApplicationWindow {
                         Layout.topMargin: 20
                         Layout.bottomMargin: ufo_GroupBox_3.titleTopMargin
                         Layout.leftMargin: ufo_GroupBox_3.titleLeftMargin
-                        text: qsTr("Copyright © 2024 Saviz Mohammadi") + "\n" +
-                              qsTr("Licensed under the MIT License. See LICENSE for details.") + "\n\n" +
-                              qsTr("MIT License") + "\n\n" +
-                              qsTr("Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"[Your Application Name]\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:") + "\n\n" +
-                              qsTr("The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.") + "\n\n" +
-                              qsTr("THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.")
-                        color: Qt.color(AppTheme.Colors["UFO_GroupBox_Text"])
+                        text: qsTr("Copyright © 2024 Saviz Mohammadi") + "\n"
+                              + qsTr("Licensed under the MIT License. See LICENSE for details.")
+                              + "\n\n" + qsTr(
+                                  "MIT License") + "\n\n" + qsTr("Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"[Your Application Name]\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:") + "\n\n" + qsTr(
+                                  "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.") + "\n\n" + qsTr("THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.")
+                        color: Qt.color(AppTheme.colors["UFO_GroupBox_Text"])
                         wrapMode: Text.WordWrap
                     }
                 }
                 // [[ ---------------------------------------------------------------------- ]]
                 // [[ ---------------------------------------------------------------------- ]]
                 // Software License
-
-
-
 
                 // Contribution
                 // [[ ---------------------------------------------------------------------- ]]
@@ -577,8 +521,8 @@ ApplicationWindow {
                     id: ufo_GroupBox_4
 
                     Layout.fillWidth: true
-                    // No point setting the "Layout.fillHeight" as "UFO_Page" ignores height to enable vertical scrolling.
 
+                    // No point setting the "Layout.fillHeight" as "UFO_Page" ignores height to enable vertical scrolling.
                     title: qsTr("Contributing")
                     contentSpacing: 10
 
@@ -591,7 +535,7 @@ ApplicationWindow {
                         Layout.bottomMargin: ufo_GroupBox_4.titleTopMargin
                         Layout.leftMargin: ufo_GroupBox_4.titleLeftMargin
                         text: qsTr("We welcome contributions to the UFO_Todo application! Please visit our <a href=\"https://github.com/Saviz-Mohammadi/UFO_Todo\">GitHub page</a> for more information.")
-                        color: Qt.color(AppTheme.Colors["UFO_GroupBox_Text"])
+                        color: Qt.color(AppTheme.colors["UFO_GroupBox_Text"])
                         wrapMode: Text.WordWrap
 
                         HoverHandler {
@@ -602,24 +546,17 @@ ApplicationWindow {
                         }
 
                         onLinkActivated: {
-                            Qt.openUrlExternally(text_5.hoveredLink);
+                            Qt.openUrlExternally(text_5.hoveredLink)
                         }
                     }
                 }
                 // [[ ---------------------------------------------------------------------- ]]
                 // [[ ---------------------------------------------------------------------- ]]
                 // Contribution
-
-
-
-
             }
             // [[ ---------------------------------------------------------------------- ]]
             // [[ ---------------------------------------------------------------------- ]]
             // About
-
-
-
 
             // Connections
             // [[ ---------------------------------------------------------------------- ]]
@@ -629,17 +566,17 @@ ApplicationWindow {
 
                 function onTabChanged(index) {
                     switch (index) {
-                        case 0:
-                            stackLayout_1.currentIndex = 0;
-                            break;
-                        case 1:
-                            stackLayout_1.currentIndex = 1;
-                            break;
-                        case 2:
-                            stackLayout_1.currentIndex = 2;
-                            break;
-                        default:
-                            stackLayout_1.currentIndex = 3;
+                    case 0:
+                        stackLayout_1.currentIndex = 0
+                        break
+                    case 1:
+                        stackLayout_1.currentIndex = 1
+                        break
+                    case 2:
+                        stackLayout_1.currentIndex = 2
+                        break
+                    default:
+                        stackLayout_1.currentIndex = 3
                     }
                 }
             }
@@ -647,18 +584,10 @@ ApplicationWindow {
             // [[ ---------------------------------------------------------------------- ]]
             // [[ ---------------------------------------------------------------------- ]]
             // Connections
-
-
-
-
         }
         // [[ ---------------------------------------------------------------------- ]]
         // [[ ---------------------------------------------------------------------- ]]
         // StackLayout
-
-
-
-
     }
     // [[ ---------------------------------------------------------------------- ]]
     // [[ ---------------------------------------------------------------------- ]]

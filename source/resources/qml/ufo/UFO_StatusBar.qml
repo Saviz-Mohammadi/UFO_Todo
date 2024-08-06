@@ -5,7 +5,6 @@ import QtQuick.Layouts
 // Custom CPP Registered Types
 import AppTheme 1.0
 
-
 Item {
     id: root
 
@@ -20,7 +19,7 @@ Item {
 
         anchors.fill: parent
 
-        color: Qt.color(AppTheme.Colors["UFO_StatusBar_Background"])
+        color: Qt.color(AppTheme.colors["UFO_StatusBar_Background"])
 
         Text {
             id: text_1
@@ -31,7 +30,7 @@ Item {
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
             text: qsTr("")
-            color: Qt.color(AppTheme.Colors["UFO_StatusBar_Text"])
+            color: Qt.color(AppTheme.colors["UFO_StatusBar_Text"])
             elide: Text.ElideRight
         }
     }

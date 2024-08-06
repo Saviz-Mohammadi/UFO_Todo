@@ -5,7 +5,6 @@ import QtQuick.Layouts
 // Custom CPP Registered Types
 import AppTheme 1.0
 
-
 TabButton {
     id: root
 
@@ -33,16 +32,12 @@ TabButton {
             verticalAlignment: Image.AlignVCenter
 
             color: {
-                if(root.checked) {
-                    Qt.color(AppTheme.Colors["UFO_SideBarButton_Icon_Checked"])
-                }
-
-                else if(root.hovered) {
-                    Qt.color(AppTheme.Colors["UFO_SideBarButton_Icon_Hovered"])
-                }
-
-                else {
-                    Qt.color(AppTheme.Colors["UFO_SideBarButton_Icon_Normal"])
+                if (root.checked) {
+                    Qt.color(AppTheme.colors["UFO_SideBarButton_Icon_Checked"])
+                } else if (root.hovered) {
+                    Qt.color(AppTheme.colors["UFO_SideBarButton_Icon_Hovered"])
+                } else {
+                    Qt.color(AppTheme.colors["UFO_SideBarButton_Icon_Normal"])
                 }
             }
         }
@@ -57,20 +52,16 @@ TabButton {
             font: root.font
             elide: Text.ElideRight
 
-            horizontalAlignment : Text.AlignLeft
+            horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
 
             color: {
-                if(root.checked) {
-                    Qt.color(AppTheme.Colors["UFO_SideBarButton_Text_Checked"])
-                }
-
-                else if(root.hovered) {
-                    Qt.color(AppTheme.Colors["UFO_SideBarButton_Text_Hovered"])
-                }
-
-                else {
-                    Qt.color(AppTheme.Colors["UFO_SideBarButton_Text_Normal"])
+                if (root.checked) {
+                    Qt.color(AppTheme.colors["UFO_SideBarButton_Text_Checked"])
+                } else if (root.hovered) {
+                    Qt.color(AppTheme.colors["UFO_SideBarButton_Text_Hovered"])
+                } else {
+                    Qt.color(AppTheme.colors["UFO_SideBarButton_Text_Normal"])
                 }
             }
         }
@@ -90,16 +81,12 @@ TabButton {
         radius: borderRadius
 
         color: {
-            if(root.checked) {
-                Qt.color(AppTheme.Colors["UFO_SideBarButton_Background_Checked"])
-            }
-
-            else if(root.hovered) {
-                Qt.color(AppTheme.Colors["UFO_SideBarButton_Background_Hovered"])
-            }
-
-            else {
-                Qt.color(AppTheme.Colors["UFO_SideBarButton_Background_Normal"])
+            if (root.checked) {
+                Qt.color(AppTheme.colors["UFO_SideBarButton_Background_Checked"])
+            } else if (root.hovered) {
+                Qt.color(AppTheme.colors["UFO_SideBarButton_Background_Hovered"])
+            } else {
+                Qt.color(AppTheme.colors["UFO_SideBarButton_Background_Normal"])
             }
         }
     }

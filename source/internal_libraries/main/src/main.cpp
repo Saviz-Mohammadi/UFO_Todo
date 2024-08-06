@@ -35,25 +35,14 @@ void setupThemeSystem()
 {
     AppTheme *appTheme = AppTheme::cppInstance();
 
-
-    appTheme->addTheme(
-
-        "light",
-        "./resources/json/theme_ufo/light.json"
-    );
-
-    appTheme->addTheme(
-
-        "dark",
-        "./resources/json/theme_ufo/dark.json"
-    );
+    appTheme->addThemes("./resources/json/themes");
 }
 
 void chooseFirstTheme()
 {
     AppTheme *appTheme = AppTheme::cppInstance();
 
-    QString lastUsedThemeKey = appTheme->cachedTheme();
+    QString lastUsedThemeKey = appTheme->getCachedTheme();
 
 
     if(!lastUsedThemeKey.isEmpty())
@@ -63,7 +52,7 @@ void chooseFirstTheme()
         return;
     }
 
-    appTheme->loadColorsFromTheme("light");
+    appTheme->loadColorsFromTheme("ufo_light");
 }
 
 void readCustomFonts(const QGuiApplication &application)
@@ -71,17 +60,17 @@ void readCustomFonts(const QGuiApplication &application)
     // Path to font files.
     QStringList fontPaths;
 
-    fontPaths << application.applicationDirPath() + "/resources/fonts/Titillium_Web/TitilliumWeb-Black.ttf"
-              << application.applicationDirPath() + "/resources/fonts/Titillium_Web/TitilliumWeb-Bold.ttf"
-              << application.applicationDirPath() + "/resources/fonts/Titillium_Web/TitilliumWeb-BoldItalic.ttf"
-              << application.applicationDirPath() + "/resources/fonts/Titillium_Web/TitilliumWeb-ExtraLight.ttf"
-              << application.applicationDirPath() + "/resources/fonts/Titillium_Web/TitilliumWeb-ExtraLightItalic.ttf"
-              << application.applicationDirPath() + "/resources/fonts/Titillium_Web/TitilliumWeb-Italic.ttf"
-              << application.applicationDirPath() + "/resources/fonts/Titillium_Web/TitilliumWeb-Light.ttf"
-              << application.applicationDirPath() + "/resources/fonts/Titillium_Web/TitilliumWeb-LightItalic.ttf"
-              << application.applicationDirPath() + "/resources/fonts/Titillium_Web/TitilliumWeb-Regular.ttf"
-              << application.applicationDirPath() + "/resources/fonts/Titillium_Web/TitilliumWeb-SemiBold.ttf"
-              << application.applicationDirPath() + "/resources/fonts/Titillium_Web/TitilliumWeb-SemiBoldItalic.ttf";
+    fontPaths << "./resources/fonts/Titillium_Web/TitilliumWeb-Black.ttf"
+              << "./resources/fonts/Titillium_Web/TitilliumWeb-Bold.ttf"
+              << "./resources/fonts/Titillium_Web/TitilliumWeb-BoldItalic.ttf"
+              << "./resources/fonts/Titillium_Web/TitilliumWeb-ExtraLight.ttf"
+              << "./resources/fonts/Titillium_Web/TitilliumWeb-ExtraLightItalic.ttf"
+              << "./resources/fonts/Titillium_Web/TitilliumWeb-Italic.ttf"
+              << "./resources/fonts/Titillium_Web/TitilliumWeb-Light.ttf"
+              << "./resources/fonts/Titillium_Web/TitilliumWeb-LightItalic.ttf"
+              << "./resources/fonts/Titillium_Web/TitilliumWeb-Regular.ttf"
+              << "./resources/fonts/Titillium_Web/TitilliumWeb-SemiBold.ttf"
+              << "./resources/fonts/Titillium_Web/TitilliumWeb-SemiBoldItalic.ttf";
 
     // Looping through each font file.
     foreach (const QString &fontPath, fontPaths)

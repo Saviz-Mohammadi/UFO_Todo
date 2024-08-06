@@ -5,7 +5,6 @@ import QtQuick.Layouts
 // Custom CPP Registered Types
 import AppTheme 1.0
 
-
 ProgressBar {
     id: root
 
@@ -22,7 +21,7 @@ ProgressBar {
         verticalAlignment: Text.AlignVCenter
 
         text: root.message
-        color: Qt.color(AppTheme.Colors["UFO_ProgressBar_Text"])
+        color: Qt.color(AppTheme.colors["UFO_ProgressBar_Text"])
         elide: Text.ElideRight
     }
 
@@ -35,7 +34,7 @@ ProgressBar {
         implicitWidth: circleWidth
         implicitHeight: circleHeight
 
-        color: Qt.color(AppTheme.Colors["UFO_ProgressBar_Background"])
+        color: Qt.color(AppTheme.colors["UFO_ProgressBar_Background"])
         radius: size / 2
 
         Canvas {
@@ -46,12 +45,14 @@ ProgressBar {
             onPaint: {
                 var ctx = getContext("2d")
                 ctx.clearRect(0, 0, width, height)
-                ctx.strokeStyle = Qt.color(AppTheme.Colors["UFO_ProgressBar_ProgressIndicator"])
+                ctx.strokeStyle = Qt.color(
+                            AppTheme.colors["UFO_ProgressBar_ProgressIndicator"])
                 ctx.lineWidth = parent.size / 20
                 ctx.beginPath()
-                var startAngle = -Math.PI / 2  // Start from the top of the circle
+                var startAngle = -Math.PI / 2 // Start from the top of the circle
                 var endAngle = startAngle + (root.visualPosition * 2 * Math.PI)
-                ctx.arc(width / 2, height / 2, width / 2 - ctx.lineWidth / 2 - 2, startAngle, endAngle)
+                ctx.arc(width / 2, height / 2,
+                        width / 2 - ctx.lineWidth / 2 - 2, startAngle, endAngle)
                 ctx.stroke()
             }
         }
