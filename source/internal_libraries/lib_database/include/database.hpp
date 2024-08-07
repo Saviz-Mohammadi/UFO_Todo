@@ -10,40 +10,30 @@
 #include <QSqlRecord>
 #include <QVariant>
 #include <QVariantList>
+#include <QFileInfo>
 
 class Database : public QObject
 {
     Q_OBJECT
-
-    // This is neccessary for Singleton pattern.
-    // Disables following:
-    //
-    // -- Copy constructor
-    // -- Copy assignment operator
-    // -- Move constructor
-    // -- Move assignment operator
-    Q_DISABLE_COPY_MOVE(Database)
+    Q_DISABLE_COPY_MOVE(Database) // Needed for Singleton
 
 public:
-    explicit Database(QObject *parent = nullptr);
+    explicit Database(QObject *parent = nullptr, const QString& name = "No name");
     ~Database();
+
+    static Database *qmlInstance(QQmlEngine *engine, QJSEngine *scriptEngine);
+    static Database *cppInstance(QObject *parent = nullptr);
 
     // Fields;
 private:
     static Database *m_Instance;
     QSqlDatabase m_QSqlDatabase;
-    bool connectionExists = false;
+    bool connectionExists;
 
-    // Methods;
-public:
-    static Database *qmlInstance(QQmlEngine *engine, QJSEngine *scriptEngine);
-    static Database *cppInstance(QObject *parent = nullptr);
-
-    // Methods;
+    // PUBLIC Methods;
 public:
     Q_INVOKABLE void establishConnection(const QString &path);
     Q_INVOKABLE void disconnect();
-    Q_INVOKABLE bool searchTask(const QString &text);
     Q_INVOKABLE QVariant addTask(const QString &text);
     Q_INVOKABLE bool removeTask(QVariant id);
     Q_INVOKABLE QVariantList obtainAllTasks();

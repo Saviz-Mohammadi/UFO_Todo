@@ -1,34 +1,54 @@
 #include "stop_timer.hpp"
 
-// Constructors and Destructor
+// Constructors, Initializers, Destructor
 // [[------------------------------------------------------------------------]]
 // [[------------------------------------------------------------------------]]
 
-StopTimer::StopTimer(QObject *parent)
+StopTimer::StopTimer(QObject *parent, const QString& name)
     : QObject{parent}
     , timer(new QTimer(this))
     , m_Time(QString())
-    , m_RemainingTime(qint64(0))
-    , m_Hours(qint64(0))
-    , m_Minutes(qint64(0))
-    , m_Seconds(qint64(0))
+    , m_RemainingTime(quint64(0))
+    , m_Hours(quint64(0))
+    , m_Minutes(quint64(0))
+    , m_Seconds(quint64(0))
 {
+    this->setObjectName(name);
+
+
+
+// Debugging
 #ifdef QT_DEBUG
-    qDebug() << "Call to constructor.";
+    qDebug() << "\n**************************************************\n"
+             << "* Object Name :" << this->objectName()  << "\n"
+             << "* Function    :" << __FUNCTION__        << "\n"
+             << "* Message     : Call to Constructor"
+             << "\n**************************************************\n\n";
 #endif
+
+
 
     connect(this->timer, &QTimer::timeout, this, &StopTimer::calculateTime);
 }
 
 StopTimer::~StopTimer()
 {
+// Debugging
 #ifdef QT_DEBUG
-    qDebug() << "call to destructor.";
+    qDebug() << "\n**************************************************\n"
+             << "* Object Name :" << this->objectName()  << "\n"
+             << "* Function    :" << __FUNCTION__        << "\n"
+             << "* Message     : Call to Destructor"
+             << "\n**************************************************\n\n";
 #endif
+
+
+
 }
 
 // [[------------------------------------------------------------------------]]
 // [[------------------------------------------------------------------------]]
+
 
 
 
@@ -44,7 +64,7 @@ void StopTimer::calculateTime()
         m_RemainingTime - 1000
     );
 
-    qint64 milliseconds = m_RemainingTime;
+    quint64 milliseconds = m_RemainingTime;
 
     // Hours
     setHours(
@@ -85,11 +105,12 @@ void StopTimer::calculateTime()
 
 
 
-// Methods
+
+// PUBLIC Methods
 // [[------------------------------------------------------------------------]]
 // [[------------------------------------------------------------------------]]
 
-void StopTimer::startTimer(qint64 time, qint64 interval)
+void StopTimer::startTimer(quint64 time, quint64 interval)
 {
     setRemainingTime(time);
     timer->start(interval);
@@ -114,14 +135,46 @@ void StopTimer::stopTimer()
 
 
 
+
 // Getters and Setters
 // [[------------------------------------------------------------------------]]
 // [[------------------------------------------------------------------------]]
 
-QString StopTimer::time() const
+QString StopTimer::getTime() const
 {
     return m_Time;
 }
+
+quint64 StopTimer::getRemainingTime() const
+{
+    return m_RemainingTime;
+}
+
+quint64 StopTimer::getHours() const
+{
+    return m_Hours;
+}
+
+quint64 StopTimer::getMinutes() const
+{
+    return m_Minutes;
+}
+
+quint64 StopTimer::getSeconds() const
+{
+    return m_Seconds;
+}
+
+// [[------------------------------------------------------------------------]]
+// [[------------------------------------------------------------------------]]
+
+
+
+
+
+// PRIVATE Setters
+// [[------------------------------------------------------------------------]]
+// [[------------------------------------------------------------------------]]
 
 void StopTimer::setTime(const QString &newTime)
 {
@@ -134,12 +187,7 @@ void StopTimer::setTime(const QString &newTime)
     emit timeChanged();
 }
 
-qint64 StopTimer::remainingTime() const
-{
-    return m_RemainingTime;
-}
-
-void StopTimer::setRemainingTime(const qint64 &newTime)
+void StopTimer::setRemainingTime(const quint64 &newTime)
 {
     if (m_RemainingTime == newTime)
     {
@@ -150,12 +198,7 @@ void StopTimer::setRemainingTime(const qint64 &newTime)
     emit remainingTimeChanged();
 }
 
-qint64 StopTimer::hours() const
-{
-    return m_Hours;
-}
-
-void StopTimer::setHours(const qint64 &newTime)
+void StopTimer::setHours(const quint64 &newTime)
 {
     if (m_Hours == newTime)
     {
@@ -166,12 +209,7 @@ void StopTimer::setHours(const qint64 &newTime)
     emit hoursChanged();
 }
 
-qint64 StopTimer::minutes() const
-{
-    return m_Minutes;
-}
-
-void StopTimer::setMinutes(const qint64 &newTime)
+void StopTimer::setMinutes(const quint64 &newTime)
 {
     if (m_Minutes == newTime)
     {
@@ -182,12 +220,7 @@ void StopTimer::setMinutes(const qint64 &newTime)
     emit minutesChanged();
 }
 
-qint64 StopTimer::seconds() const
-{
-    return m_Seconds;
-}
-
-void StopTimer::setSeconds(const qint64 &newTime)
+void StopTimer::setSeconds(const quint64 &newTime)
 {
     if (m_Seconds == newTime)
     {

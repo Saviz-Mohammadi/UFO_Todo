@@ -6,7 +6,6 @@ import QtQuick.Layouts
 import AppTheme 1.0
 import StopTimer 1.0
 
-
 Rectangle {
     id: root
 
@@ -59,7 +58,7 @@ Rectangle {
 
             from: 0
             to: qtObject_1.milliseconds
-            value: stopTimer_1.RemaningTime
+            value: stopTimer_1.remaningTime
         }
 
         RowLayout {
@@ -81,7 +80,9 @@ Rectangle {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 35
 
-                validator: RegularExpressionValidator { regularExpression: /^[0-9]{1,2}$/ }
+                validator: RegularExpressionValidator {
+                    regularExpression: /^[0-9]{1,2}$/
+                }
                 placeholderText: qsTr("Hours")
 
                 ToolTip.visible: hovered
@@ -90,16 +91,14 @@ Rectangle {
                 onTextChanged: {
                     var input = parseInt(ufo_TextField_1.text)
 
-                    if(input !== 0)
-                    {
+                    if (input !== 0) {
                         qtObject_1.hours = input
-                        return;
+                        return
                     }
 
-                    if(root.defaultHours !== 0)
-                    {
+                    if (root.defaultHours !== 0) {
                         qtObject_1.hours = root.defaultHours
-                        return;
+                        return
                     }
 
                     // Otherwise, don't do anything.
@@ -112,7 +111,9 @@ Rectangle {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 35
 
-                validator: RegularExpressionValidator { regularExpression: /^[0-9]{1,2}$/ }
+                validator: RegularExpressionValidator {
+                    regularExpression: /^[0-9]{1,2}$/
+                }
                 placeholderText: qsTr("Minutes")
 
                 ToolTip.visible: hovered
@@ -121,16 +122,14 @@ Rectangle {
                 onTextChanged: {
                     var input = parseInt(ufo_TextField_2.text)
 
-                    if(input !== 0)
-                    {
+                    if (input !== 0) {
                         qtObject_1.minutes = input
-                        return;
+                        return
                     }
 
-                    if(root.defaultMinutes !== 0)
-                    {
+                    if (root.defaultMinutes !== 0) {
                         qtObject_1.minutes = root.defaultMinutes
-                        return;
+                        return
                     }
 
                     // Otherwise, don't do anything.
@@ -143,7 +142,9 @@ Rectangle {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 35
 
-                validator: RegularExpressionValidator { regularExpression: /^[0-9]{1,2}$/ }
+                validator: RegularExpressionValidator {
+                    regularExpression: /^[0-9]{1,2}$/
+                }
                 placeholderText: qsTr("Seconds")
 
                 ToolTip.visible: hovered
@@ -152,16 +153,14 @@ Rectangle {
                 onTextChanged: {
                     var input = parseInt(ufo_TextField_3.text)
 
-                    if(input !== 0)
-                    {
+                    if (input !== 0) {
                         qtObject_1.seconds = input
-                        return;
+                        return
                     }
 
-                    if(root.defaultSeconds !== 0)
-                    {
+                    if (root.defaultSeconds !== 0) {
                         qtObject_1.seconds = root.defaultSeconds
-                        return;
+                        return
                     }
 
                     // Otherwise, don't do anything.
@@ -200,11 +199,11 @@ Rectangle {
 
                 onClicked: {
                     // Convert hours + minutes + seconds into milliseconds
-                    qtObject_1.milliseconds = (qtObject_1.hours * 3600 * 1000) + (qtObject_1.minutes * 60 * 1000) + (qtObject_1.seconds * 1000)
+                    qtObject_1.milliseconds = (qtObject_1.hours * 3600 * 1000)
+                            + (qtObject_1.minutes * 60 * 1000) + (qtObject_1.seconds * 1000)
 
-                    if(qtObject_1.milliseconds === 0)
-                    {
-                        return;
+                    if (qtObject_1.milliseconds === 0) {
+                        return
                     }
 
                     ufo_TextField_1.enabled = false
@@ -212,7 +211,6 @@ Rectangle {
                     ufo_TextField_3.enabled = false
 
                     // Add some code here to make the message appear as the full number at first.
-
                     stopTimer_1.startTimer(qtObject_1.milliseconds, 1000)
                 }
             }
@@ -268,7 +266,7 @@ Rectangle {
             id: stopTimer_1
 
             onTimeChanged: {
-                ufo_ProgressBar_1.message = stopTimer_1.Time
+                ufo_ProgressBar_1.message = stopTimer_1.time
             }
 
             onTimerStarted: {
@@ -284,10 +282,9 @@ Rectangle {
                 button_1.enabled = true
                 button_3.enabled = false
 
-                if(RemaningTime <= 0)
-                {
+                if (remaningTime <= 0) {
                     // Here is where the timer really stops! We must send a notification.
-                    return;
+                    return
                 }
 
                 button_2.enabled = true

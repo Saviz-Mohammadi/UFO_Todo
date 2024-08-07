@@ -8,8 +8,8 @@ AppTheme* AppTheme::m_Instance = nullptr;
 
 AppTheme::AppTheme(QObject *parent, const QString& name)
     : QObject{parent}
-    , m_Colors()
-    , m_Themes()
+    , m_Colors(QVariantMap{})
+    , m_Themes(QVariantMap{})
 {
     this->setObjectName(name);
 

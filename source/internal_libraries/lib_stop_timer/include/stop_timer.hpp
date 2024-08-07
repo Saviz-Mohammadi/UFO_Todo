@@ -9,32 +9,26 @@ class StopTimer : public QObject
 {
     Q_OBJECT
 
-public:
-    explicit StopTimer(QObject *parent = nullptr);
-    ~StopTimer();
-
     // Q_PROPERTY;
-private:
-    Q_PROPERTY(QString Time READ time NOTIFY timeChanged);
-    Q_PROPERTY(qint64 RemaningTime READ remainingTime NOTIFY remainingTimeChanged);
-    Q_PROPERTY(qint64 Hours READ hours NOTIFY hoursChanged);
-    Q_PROPERTY(qint64 Minutes READ minutes NOTIFY minutesChanged);
-    Q_PROPERTY(qint64 Seconds READ seconds NOTIFY secondsChanged);
+    Q_PROPERTY(QString time READ getTime NOTIFY timeChanged);
+    Q_PROPERTY(quint64 remaningTime READ getRemainingTime NOTIFY remainingTimeChanged);
+    Q_PROPERTY(quint64 hours READ getHours NOTIFY hoursChanged);
+    Q_PROPERTY(quint64 minutes READ getMinutes NOTIFY minutesChanged);
+    Q_PROPERTY(quint64 seconds READ getSeconds NOTIFY secondsChanged);
+
+    // Constructors, Initializers, Destructor
+public:
+    explicit StopTimer(QObject *parent = nullptr, const QString& name = "No name");
+    ~StopTimer();
 
     // Fields;
 private:
     QTimer *timer;
     QString m_Time;
-    qint64 m_RemainingTime;
-    qint64 m_Hours;
-    qint64 m_Minutes;
-    qint64 m_Seconds;
-
-    // Methods;
-public:
-    Q_INVOKABLE void startTimer(qint64 time, qint64 interval);
-    Q_INVOKABLE void resumeTimer();
-    Q_INVOKABLE void stopTimer();
+    quint64 m_RemainingTime;
+    quint64 m_Hours;
+    quint64 m_Minutes;
+    quint64 m_Seconds;
 
     // Signals;
 signals:
@@ -51,21 +45,27 @@ signals:
 private slots:
     void calculateTime();
 
-    // Getters
+    // PUBLIC Methods;
 public:
-    QString time() const;
-    qint64 remainingTime() const;
-    qint64 hours() const;
-    qint64 minutes() const;
-    qint64 seconds() const;
+    Q_INVOKABLE void startTimer(quint64 time, quint64 interval);
+    Q_INVOKABLE void resumeTimer();
+    Q_INVOKABLE void stopTimer();
 
-    // Setters
+    // PUBLIC Getters
+public:
+    QString getTime() const;
+    quint64 getRemainingTime() const;
+    quint64 getHours() const;
+    quint64 getMinutes() const;
+    quint64 getSeconds() const;
+
+    // PRIVATE Setters
 private:
     void setTime(const QString &newTime);
-    void setRemainingTime(const qint64 &newTime);
-    void setHours(const qint64 &newTime);
-    void setMinutes(const qint64 &newTime);
-    void setSeconds(const qint64 &newTime);
+    void setRemainingTime(const quint64 &newTime);
+    void setHours(const quint64 &newTime);
+    void setMinutes(const quint64 &newTime);
+    void setSeconds(const quint64 &newTime);
 };
 
 #endif // StopTimer_H

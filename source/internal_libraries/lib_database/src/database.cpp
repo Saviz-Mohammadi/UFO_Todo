@@ -1,25 +1,52 @@
-#include <QFileInfo>
 #include "database.hpp"
 
 Database *Database::m_Instance = nullptr;
 
-Database::Database(QObject *parent)
+// Constructors, Initializers, Destructor
+// [[------------------------------------------------------------------------]]
+// [[------------------------------------------------------------------------]]
+
+Database::Database(QObject *parent, const QString& name)
     : QObject{parent}
+    , m_QSqlDatabase(QSqlDatabase{})
+    , connectionExists(false)
 {
-    // Just for insurance.
+    this->setObjectName(name);
+
+
+
+// Debugging
 #ifdef QT_DEBUG
-    qDebug() << "List of SQL drivers:";
-    qDebug() << QSqlDatabase::drivers();
+    qDebug() << "\n**************************************************\n"
+             << "* Object Name :" << this->objectName()  << "\n"
+             << "* Function    :" << __FUNCTION__        << "\n"
+             << "* Message     : Call to Constructor"
+             << "\n**************************************************\n\n";
+#endif
+
+#ifdef QT_DEBUG
+    qDebug() << "\n**************************************************\n"
+             << "* Object Name :" << this->objectName()  << "\n"
+             << "* Function    :" << __FUNCTION__        << "\n"
+             << "* Message     : List of SQL drivers: "  << QSqlDatabase::drivers()
+             << "\n**************************************************\n\n";
 #endif
 }
 
 Database::~Database()
 {
+// Debugging
 #ifdef QT_DEBUG
-    qDebug() << "Closing the database connection.";
+    qDebug() << "\n**************************************************\n"
+             << "* Object Name :" << this->objectName()  << "\n"
+             << "* Function    :" << __FUNCTION__        << "\n"
+             << "* Message     : Call to Destructor"
+             << "\n**************************************************\n\n";
 #endif
 
-    // Close the connection to database.
+
+
+    // Closing the connection.
     this->disconnect();
 }
 
@@ -48,6 +75,17 @@ Database *Database::cppInstance(QObject *parent)
     return (instance);
 }
 
+// [[------------------------------------------------------------------------]]
+// [[------------------------------------------------------------------------]]
+
+
+
+
+
+// PUBLIC Methods
+// [[------------------------------------------------------------------------]]
+// [[------------------------------------------------------------------------]]
+
 void Database::establishConnection(const QString &path)
 {
     // Connection already exists, abort operation.
@@ -64,36 +102,69 @@ void Database::establishConnection(const QString &path)
 
     if (connectionFailed)
     {
+// Debugging
 #ifdef QT_DEBUG
-        qDebug() << "Connection failed!" << m_QSqlDatabase.lastError().text();
-        qDebug() << "Path given to the database file: " << path
-                 << " Does path exist: " << QFileInfo::exists(path);
+        qDebug() << "\n**************************************************\n"
+                 << "* Object Name :" << this->objectName()  << "\n"
+                 << "* Function    :" << __FUNCTION__        << "\n"
+                 << "* Message     : Connection failed!"     << "\n"
+                 << "* Error       : " << m_QSqlDatabase.lastError().text() << "\n"
+                 << "* Path exists : " << QFileInfo::exists(path) << "\n"
+                 << "* Path        : " << path
+                 << "\n**************************************************\n\n";
 #endif
+
+
 
         return;
     }
 
+
+
+// Debugging
 #ifdef QT_DEBUG
-    qDebug() << "Connection established!";
+    qDebug() << "\n**************************************************\n"
+             << "* Object Name :" << this->objectName()  << "\n"
+             << "* Function    :" << __FUNCTION__        << "\n"
+             << "* Message     : Connection established!"
+             << "\n**************************************************\n\n";
 #endif
+
+
 
     QSqlQuery query;
 
     bool query_success = query.exec(
-        "CREATE TABLE IF NOT EXISTS tasks (task_id INTEGER PRIMARY KEY AUTOINCREMENT, task_description TEXT);");
+        "CREATE TABLE IF NOT EXISTS tasks (task_id INTEGER PRIMARY KEY AUTOINCREMENT, task_description TEXT);"
+    );
 
     if (!query_success)
     {
+// Debugging
 #ifdef QT_DEBUG
-        qDebug() << "Failed to run query. Reason: " << query.lastError().text();
+        qDebug() << "\n**************************************************\n"
+                 << "* Object Name :" << this->objectName()  << "\n"
+                 << "* Function    :" << __FUNCTION__        << "\n"
+                 << "* Message     : Failed to run query. Reason: " << query.lastError().text()
+                 << "\n**************************************************\n\n";
 #endif
+
+
 
         return;
     }
 
+
+// Debugging
 #ifdef QT_DEBUG
-    qDebug() << "Query executed successfully. Table is now created if not already existed.";
+    qDebug() << "\n**************************************************\n"
+             << "* Object Name :" << this->objectName()  << "\n"
+             << "* Function    :" << __FUNCTION__        << "\n"
+             << "* Message     : Query executed successfully. Table is now created if not already existed."
+             << "\n**************************************************\n\n";
 #endif
+
+
 
     connectionExists = (true);
 }
@@ -103,40 +174,19 @@ void Database::disconnect()
     m_QSqlDatabase.close();
 
     connectionExists = (false);
+
+
+
+// Debugging
+#ifdef QT_DEBUG
+    qDebug() << "\n**************************************************\n"
+             << "* Object Name :" << this->objectName()  << "\n"
+             << "* Function    :" << __FUNCTION__        << "\n"
+             << "* Message     : Closing the database connection..."
+             << "\n**************************************************\n\n";
+#endif
 }
 
-bool Database::searchTask(const QString &text)
-{
-    QString command("SELECT COUNT(*) FROM tasks WHERE task = :text");
-
-    QSqlQuery query;
-    query.prepare(command);
-    query.bindValue(":text", text);
-
-    bool operation_success = (query.exec());
-
-    if (!operation_success) {
-#ifdef QT_DEBUG
-        qDebug() << "Operation \"search\" failed. Reason: " << query.lastError().text();
-#endif
-
-        return (operation_success);
-    }
-
-#ifdef QT_DEBUG
-    qDebug() << "Operation \"search\" successful.";
-#endif
-
-    if (query.next()) { // Move to the first (and only) record
-        int count = query.value(0).toInt();
-        return count > 0;
-    }
-
-    return false;
-}
-
-// Please note the use of QVariant is not neccessary. The internal QtQuick interface attempts to find the closest matching type between javaScript and C++ depending on the argument types.
-// However, some argument types are unknown to the QML typesystem, and for those wrapping in QVariants may be necessary. I just want to be safe here.
 QVariant Database::addTask(const QString &text)
 {
     QString command("INSERT INTO tasks(task_description) VALUES(:text)");
@@ -145,19 +195,25 @@ QVariant Database::addTask(const QString &text)
     query.prepare(command);
     query.bindValue(":text", text);
 
+
     bool operation_success = (query.exec());
 
     if (!operation_success)
     {
+// Debugging
 #ifdef QT_DEBUG
-        qDebug() << "Operation \"addTask\" failed. Reason: " << query.lastError().text();
+        qDebug() << "\n**************************************************\n"
+                 << "* Object Name :" << this->objectName()  << "\n"
+                 << "* Function    :" << __FUNCTION__        << "\n"
+                 << "* Message     : Operation failed! Reason: " << query.lastError().text()
+                 << "\n**************************************************\n\n";
 #endif
+
+
+
         return (operation_success);
     }
 
-#ifdef QT_DEBUG
-    qDebug() << "Operation \"addTask\" successful.";
-#endif
 
     return (query.lastInsertId());
 }
@@ -168,21 +224,28 @@ bool Database::removeTask(QVariant id)
 
     QSqlQuery query;
     query.prepare(command);
-    query.bindValue(":id", id.toInt());
+    query.bindValue(":id", id.toULongLong());
+
 
     bool operation_success = (query.exec());
 
-    if (!operation_success) {
+    if (!operation_success)
+    {
+// Debugging
 #ifdef QT_DEBUG
-        qDebug() << "Operation \"removeTask\" failed. Reason: " << query.lastError().text();
+        qDebug() << "\n**************************************************\n"
+                 << "* Object Name :" << this->objectName()  << "\n"
+                 << "* Function    :" << __FUNCTION__        << "\n"
+                 << "* Message     : Operation failed! Reason: " << query.lastError().text()
+                 << "\n**************************************************\n\n";
 #endif
+
+
 
         return (operation_success);
     }
 
-#ifdef QT_DEBUG
-    qDebug() << "Operation \"removeTask\" successful.";
-#endif
+
 
     return (operation_success);
 }
@@ -195,23 +258,33 @@ QVariantList Database::obtainAllTasks()
     query.prepare(command);
     query.exec();
 
+
     QVariantList list;
 
-    // Iterate using a cursor.
     while (query.next())
     {
-        // Create a QVariantMap to hold the id and task
         QVariantMap recordMap;
-        recordMap["id"] = query.value(0).toInt(); // Assuming id is an integer
-        recordMap["task"] = query.value(1).toString(); // Assuming task is a string
 
-        // Append the map to the list
+        recordMap["id"] = query.value(0).toULongLong();
+        recordMap["task"] = query.value(1).toString();
+
         list.append(recordMap);
 
+
+
+// Debugging
 #ifdef QT_DEBUG
-        qDebug() << "Found record" << recordMap;
+        qDebug() << "\n**************************************************\n"
+                 << "* Object Name :" << this->objectName()  << "\n"
+                 << "* Function    :" << __FUNCTION__        << "\n"
+                 << "* Message     : Found record" << recordMap
+                 << "\n**************************************************\n\n";
 #endif
     }
 
+
     return (list);
 }
+
+// [[------------------------------------------------------------------------]]
+// [[------------------------------------------------------------------------]]
