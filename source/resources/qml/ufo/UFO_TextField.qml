@@ -27,7 +27,7 @@ TextField {
             }
         }
 
-        radius: 4
+        radius: 0
 
         border.color: root.enabled ? Qt.color(
                                          AppTheme.colors["UFO_TextField_Border"]) : Qt.color(

@@ -36,7 +36,7 @@ MenuItem {
         implicitWidth: 120
         implicitHeight: 28
 
-        radius: 4
+        radius: 0
         opacity: enabled ? 1 : 0.3
         color: root.highlighted ? Qt.color(
                                       AppTheme.colors["UFO_MenuItem_Background_Highlighted"]) : Qt.color(

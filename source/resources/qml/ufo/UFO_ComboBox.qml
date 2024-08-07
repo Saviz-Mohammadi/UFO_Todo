@@ -8,6 +8,8 @@ import AppTheme 1.0
 ComboBox {
     id: root
 
+    property real dropDownTopMarign: 0
+
     delegate: ItemDelegate {
         id: itemDelegate_1
 
@@ -28,7 +30,7 @@ ComboBox {
         background: Rectangle {
             id: rectangle_1
 
-            radius: 4
+            radius: 0
 
             width: root.width
             color: itemDelegate_1.highlighted ? Qt.color(
@@ -64,7 +66,7 @@ ComboBox {
                                          AppTheme.colors["UFO_ComboBox_Border_Pressed"]) : Qt.color(
                                          AppTheme.colors["UFO_ComboBox_Border_Normal"])
         border.width: root.visualFocus ? 2 : 1
-        radius: 4
+        radius: 0
     }
 
     indicator: Canvas {
@@ -102,7 +104,7 @@ ComboBox {
     popup: Popup {
         id: popup_1
 
-        y: root.height + 3
+        y: (root.height + root.dropDownTopMarign)
         width: root.width
         implicitHeight: contentItem.implicitHeight
 
@@ -126,7 +128,7 @@ ComboBox {
             color: Qt.color(AppTheme.colors["UFO_ComboBox_Popup_Background"])
             border.color: Qt.color(
                               AppTheme.colors["UFO_ComboBox_DropBox_Border"])
-            radius: 4
+            radius: 0
         }
     }
 }

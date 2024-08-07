@@ -18,7 +18,7 @@ Menu {
         implicitWidth: 150
         implicitHeight: 28
 
-        radius: 4
+        radius: 0
         opacity: enabled ? 1 : 0.3
         border.color: Qt.color(AppTheme.colors["UFO_Menu_Border"])
         color: root.highlighted ? Qt.color(

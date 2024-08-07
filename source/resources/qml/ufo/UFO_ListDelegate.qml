@@ -20,7 +20,7 @@ Item {
         width: parent.width
         height: content.implicitHeight
 
-        radius: 4
+        radius: 0
 
         RowLayout {
             id: content
@@ -113,7 +113,7 @@ Item {
 
                 background: Rectangle {
 
-                    radius: 4
+                    radius: 0
 
                     color: {
                         if (button_1.pressed) {

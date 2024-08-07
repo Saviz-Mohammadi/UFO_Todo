@@ -11,7 +11,7 @@ TabButton {
     property alias svg: iconImage_1.source
     property int svgWidth: 24
     property int svgHeight: 24
-    property int borderRadius: 4
+    property int borderRadius: 0
 
     implicitWidth: 120
     implicitHeight: 35

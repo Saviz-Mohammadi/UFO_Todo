@@ -107,7 +107,7 @@ void setGlobalFont(const QGuiApplication &application)
         QFont customFont(
 
             fontFamilyName,
-            11
+            10
         );
 
         QGuiApplication::setFont(customFont);

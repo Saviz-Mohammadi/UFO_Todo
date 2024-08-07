@@ -214,7 +214,11 @@ set(RESOURCE_QML_FILES
     "${BASE_QML_LOCATION}/ufo/UFO_ListDelegate.qml"
     "${BASE_QML_LOCATION}/ufo/UFO_ProgressBar.qml"
     "${BASE_QML_LOCATION}/ufo/UFO_StopTimer.qml"
-    "${BASE_QML_LOCATION}/ufo/UFO_Button.qml")
+    "${BASE_QML_LOCATION}/ufo/UFO_Button.qml"
+    "${BASE_QML_LOCATION}/pages/UFO_About.qml"
+    "${BASE_QML_LOCATION}/pages/UFO_Settings.qml"
+    "${BASE_QML_LOCATION}/pages/UFO_Timer.qml"
+    "${BASE_QML_LOCATION}/pages/UFO_TaskList.qml")
 
 # [[ ----------------------------------------------------------------------- ]]
 # [[ ----------------------------------------------------------------------- ]]

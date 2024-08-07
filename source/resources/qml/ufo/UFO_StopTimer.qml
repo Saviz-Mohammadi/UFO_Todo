@@ -17,9 +17,9 @@ Rectangle {
     implicitWidth: 200
     implicitHeight: 200
 
-    color: "grey"
+    color: Qt.color(AppTheme.colors["UFO_StopTimer_Background"])
 
-    radius: 4
+    radius: 0
 
     // This way properties are not visible to the outside world.
     QtObject {
@@ -83,6 +83,7 @@ Rectangle {
                 validator: RegularExpressionValidator {
                     regularExpression: /^[0-9]{1,2}$/
                 }
+
                 placeholderText: qsTr("Hours")
 
                 ToolTip.visible: hovered
@@ -114,6 +115,7 @@ Rectangle {
                 validator: RegularExpressionValidator {
                     regularExpression: /^[0-9]{1,2}$/
                 }
+
                 placeholderText: qsTr("Minutes")
 
                 ToolTip.visible: hovered
@@ -145,6 +147,7 @@ Rectangle {
                 validator: RegularExpressionValidator {
                     regularExpression: /^[0-9]{1,2}$/
                 }
+
                 placeholderText: qsTr("Seconds")
 
                 ToolTip.visible: hovered
