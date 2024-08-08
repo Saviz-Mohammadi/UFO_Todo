@@ -235,3 +235,101 @@ add_dependencies(${EXECUTABLE_NAME} CopyResources_QML)
 # [[ ----------------------------------------------------------------------- ]]
 # [[ ----------------------------------------------------------------------- ]]
 # [[ Custom Targets - QML ]]
+
+
+
+
+
+# [[ Custom Targets - MUSIC ]]
+# [[ ----------------------------------------------------------------------- ]]
+# [[ ----------------------------------------------------------------------- ]]
+
+set(RESOURCE_MUSIC_DESTINATION
+
+    "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources/music")
+
+
+
+
+add_custom_target(CopyResources_MUSIC)
+
+
+
+
+# Custom target for copying txt files...
+foreach(RESOURCE_FILE ${RESOURCE_MUSIC_FILES})
+
+    # Get the relative path of the file from where it differs to ${BASE_QML_LOCATION}
+    file(RELATIVE_PATH REL_PATH ${BASE_MUSIC_LOCATION} ${RESOURCE_FILE})
+
+    # Construct the destination path including relative subdirectory
+    set(DESTINATION_PATH "${RESOURCE_MUSIC_DESTINATION}/${REL_PATH}")
+
+    message(STATUS "Copying ${RESOURCE_FILE} to ${DESTINATION_PATH}")
+
+    # Add your custom command to copy the file
+    add_custom_command(TARGET CopyResources_MUSIC POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${RESOURCE_FILE}"
+        "${DESTINATION_PATH}"
+        COMMENT "Copying ${RESOURCE_FILE} to ${DESTINATION_PATH}")
+endforeach()
+
+
+
+
+
+add_dependencies(${EXECUTABLE_NAME} CopyResources_MUSIC)
+
+# [[ ----------------------------------------------------------------------- ]]
+# [[ ----------------------------------------------------------------------- ]]
+# [[ Custom Targets - MUSIC ]]
+
+
+
+
+
+# [[ Custom Targets - WINDOWS ]]
+# [[ ----------------------------------------------------------------------- ]]
+# [[ ----------------------------------------------------------------------- ]]
+
+set(RESOURCE_WINDOWS_DESTINATION
+
+    "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/resources/windows")
+
+
+
+
+add_custom_target(CopyResources_WINDOWS)
+
+
+
+
+# Custom target for copying txt files...
+foreach(RESOURCE_FILE ${RESOURCE_WINDOWS_FILES})
+
+    # Get the relative path of the file from where it differs to ${BASE_QML_LOCATION}
+    file(RELATIVE_PATH REL_PATH ${BASE_WINDOWS_LOCATION} ${RESOURCE_FILE})
+
+    # Construct the destination path including relative subdirectory
+    set(DESTINATION_PATH "${RESOURCE_WINDOWS_DESTINATION}/${REL_PATH}")
+
+    message(STATUS "Copying ${RESOURCE_FILE} to ${DESTINATION_PATH}")
+
+    # Add your custom command to copy the file
+    add_custom_command(TARGET CopyResources_WINDOWS POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${RESOURCE_FILE}"
+        "${DESTINATION_PATH}"
+        COMMENT "Copying ${RESOURCE_FILE} to ${DESTINATION_PATH}")
+endforeach()
+
+
+
+
+
+add_dependencies(${EXECUTABLE_NAME} CopyResources_WINDOWS)
+
+# [[ ----------------------------------------------------------------------- ]]
+# [[ ----------------------------------------------------------------------- ]]
+# [[ Custom Targets - WINDOWS ]]

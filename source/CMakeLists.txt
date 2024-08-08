@@ -138,13 +138,25 @@ set(BASE_ICON_LOCATION
 
     "${BASE_RESOURCE_LOCATION}/icons")
 
+
 set(BASE_FONT_LOCATION
 
     "${BASE_RESOURCE_LOCATION}/fonts")
 
+
 set(BASE_QML_LOCATION
 
     "${BASE_RESOURCE_LOCATION}/qml")
+
+
+set(BASE_MUSIC_LOCATION
+
+    "${BASE_RESOURCE_LOCATION}/music")
+
+
+set(BASE_WINDOWS_LOCATION
+
+    "${BASE_RESOURCE_LOCATION}/windows")
 
 
 
@@ -173,7 +185,9 @@ set(RESOURCE_ICON_FILES
     "${BASE_ICON_LOCATION}/Google icons/alarm.svg"
     "${BASE_ICON_LOCATION}/Google icons/play.svg"
     "${BASE_ICON_LOCATION}/Google icons/resume.svg"
-    "${BASE_ICON_LOCATION}/Google icons/stop.svg")
+    "${BASE_ICON_LOCATION}/Google icons/stop.svg"
+    "${BASE_ICON_LOCATION}/Application icons/ufo.png"
+    "${BASE_ICON_LOCATION}/Application icons/ufo.ico")
 
 
 # Make sure to prefix the path with ${BASE_ICON_LOCATION}.
@@ -220,6 +234,20 @@ set(RESOURCE_QML_FILES
     "${BASE_QML_LOCATION}/pages/UFO_Timer.qml"
     "${BASE_QML_LOCATION}/pages/UFO_TaskList.qml")
 
+
+set(RESOURCE_MUSIC_FILES
+
+    "${BASE_MUSIC_LOCATION}/sound effects/simple-notification.mp3"
+    "${BASE_MUSIC_LOCATION}/sound effects/simple-notification.wav")
+
+
+# Only add these files if the target platform is Windows
+if(WIN32)
+set(RESOURCE_WINDOWS_FILES
+
+    "${BASE_WINDOWS_LOCATION}/icons.rc")
+endif()
+
 # [[ ----------------------------------------------------------------------- ]]
 # [[ ----------------------------------------------------------------------- ]]
 # [[ Resource Files ]]
@@ -264,7 +292,19 @@ target_sources(${EXECUTABLE_NAME}
     ${RESOURCE_JSON_FILES}
     ${RESOURCE_ICON_FILES}
     ${RESOURCE_FONT_FILES}
-    ${RESOURCE_QML_FILES})
+    ${RESOURCE_QML_FILES}
+    ${RESOURCE_MUSIC_FILES})
+
+
+
+
+# Only add these files if the target platform is Windows
+if(WIN32)
+    target_sources(${EXECUTABLE_NAME}
+
+        PRIVATE
+        ${RESOURCE_WINDOWS_FILES})
+endif()
 
 
 

@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Controls.Basic
 import QtQuick.Layouts
+import QtMultimedia
+import Qt.labs.platform
 
 // Custom CPP Registered Types
 import AppTheme 1.0
@@ -286,7 +288,14 @@ Rectangle {
                 button_3.enabled = false
 
                 if (remaningTime <= 0) {
-                    // Here is where the timer really stops! We must send a notification.
+
+                    systemTrayIcon_1.showMessage(
+                        qsTr("Timer Finished!"),
+                        qsTr("The application timer has ended.")
+                    )
+
+                    soundEffect_1.play()
+
                     return
                 }
 
@@ -297,6 +306,36 @@ Rectangle {
                 button_1.enabled = false
                 button_2.enabled = false
                 button_3.enabled = true
+            }
+        }
+
+        SoundEffect {
+            id: soundEffect_1
+
+            loops: 2
+            source: "./../../music/sound effects/simple-notification.wav"
+        }
+
+        SystemTrayIcon {
+            id: systemTrayIcon_1
+
+            visible: true
+            icon.source: "./../../icons/Application icons/ufo.ico"
+            icon.mask: false
+
+            menu: Menu {
+                id: menu_1
+
+                MenuItem {
+                    id: menuItem_1
+
+                    text: qsTr("Quit")
+                    onTriggered: Qt.quit()
+                }
+            }
+
+            onActivated: {
+                soundEffect_1.stop()
             }
         }
     }

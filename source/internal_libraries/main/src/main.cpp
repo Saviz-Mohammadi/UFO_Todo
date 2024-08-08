@@ -5,7 +5,6 @@ int main(int argc, char *argv[])
     QGuiApplication application(argc, argv);
     QQmlApplicationEngine engine;
 
-
     registerTypes();
     setupThemeSystem();
     chooseFirstTheme();
@@ -13,10 +12,8 @@ int main(int argc, char *argv[])
     setGlobalFont(application);
     setupDatabase();
 
-
     // Load main.qml to start the engine. (Relative path from executable)
     engine.load("./resources/qml/main.qml");
-
 
     // Launch Event loop.
     return application.exec();

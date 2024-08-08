@@ -18,6 +18,8 @@ UFO_Page {
     contentWidth: 1.0
     title: qsTr("Timer")
 
+
+
     Flow {
         Layout.fillWidth: true
 
