@@ -186,8 +186,7 @@ set(RESOURCE_ICON_FILES
     "${BASE_ICON_LOCATION}/Google icons/play.svg"
     "${BASE_ICON_LOCATION}/Google icons/resume.svg"
     "${BASE_ICON_LOCATION}/Google icons/stop.svg"
-    "${BASE_ICON_LOCATION}/Application icons/ufo.png"
-    "${BASE_ICON_LOCATION}/Application icons/ufo.ico")
+    "${BASE_ICON_LOCATION}/Application icons/ufo.png")
 
 
 # Make sure to prefix the path with ${BASE_ICON_LOCATION}.
