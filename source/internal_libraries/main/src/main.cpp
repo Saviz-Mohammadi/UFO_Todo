@@ -1,4 +1,5 @@
 #include "main.hpp"
+#include <QIcon>
 
 int main(int argc, char *argv[])
 {
@@ -11,6 +12,10 @@ int main(int argc, char *argv[])
     readCustomFonts(application);
     setGlobalFont(application);
     setupDatabase();
+
+    // If you are not seeing the icon change under a Linux machine, it maybe because of Wayland.
+    // Wayland is new and is really problematic.
+    QGuiApplication::setWindowIcon(QIcon("./resources/icons/Application icons/ufo.png"));
 
     // Load main.qml to start the engine. (Relative path from executable)
     engine.load("./resources/qml/main.qml");

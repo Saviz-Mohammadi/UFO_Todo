@@ -245,7 +245,7 @@ set(RESOURCE_MUSIC_FILES
 if(WIN32)
 set(RESOURCE_WINDOWS_FILES
 
-    "${BASE_WINDOWS_LOCATION}/icons.rc")
+    )
 endif()
 
 # [[ ----------------------------------------------------------------------- ]]
