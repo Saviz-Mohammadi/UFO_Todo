@@ -51,7 +51,7 @@ Item {
                 Layout.bottomMargin: 15
                 Layout.rightMargin: 15
 
-                text: "Delete"
+                text: "Done"
                 hoverEnabled: true
 
                 contentItem: RowLayout {
@@ -64,7 +64,7 @@ Item {
                     }
 
                     IconImage {
-                        source: "./../../icons/Google icons/delete.svg"
+                        source: "./../../icons/Google icons/check_circle.svg"
                         smooth: true
                         mipmap: true
                         Layout.preferredWidth: 18

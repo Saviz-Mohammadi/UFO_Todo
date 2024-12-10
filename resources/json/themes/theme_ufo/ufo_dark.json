@@ -95,28 +95,28 @@
     "UFO_TextField_Placeholder_Hovered": "Color_Light_3",
     "UFO_TextField_Placeholder_Active": "Color_Dark_4",
 
-    "UFO_ListDelegate_Background_1": "Color_Dark_1",
-    "UFO_ListDelegate_Background_2": "Color_Dark_1",
+    "UFO_ListDelegate_Background_1": "Color_Light_8",
+    "UFO_ListDelegate_Background_2": "Color_Light_8",
 
-    "UFO_ListDelegate_Text": "Color_Light_4",
+    "UFO_ListDelegate_Text": "Color_Light_3",
 
-    "UFO_ListDelegate_Icon_Pressed": "Color_Dark_3",
-    "UFO_ListDelegate_Icon_Hovered": "Color_Dark_3",
-    "UFO_ListDelegate_Icon_Normal": "Color_Dark_3",
+    "UFO_ListDelegate_Icon_Pressed": "Color_Dark_4",
+    "UFO_ListDelegate_Icon_Hovered": "Color_Dark_4",
+    "UFO_ListDelegate_Icon_Normal": "Color_Dark_4",
 
-    "UFO_ListDelegate_Text_Pressed": "Color_Dark_3",
-    "UFO_ListDelegate_Text_Hovered": "Color_Dark_3",
-    "UFO_ListDelegate_Text_Normal": "Color_Dark_3",
+    "UFO_ListDelegate_Text_Pressed": "Color_Dark_4",
+    "UFO_ListDelegate_Text_Hovered": "Color_Dark_4",
+    "UFO_ListDelegate_Text_Normal": "Color_Dark_4",
 
-    "UFO_ListDelegate_Background_Pressed": "Color_Red_5",
-    "UFO_ListDelegate_Background_Hovered": "Color_Red_4",
-    "UFO_ListDelegate_Background_Normal": "Color_Red_3",
+    "UFO_ListDelegate_Background_Pressed": "Color_Blue_4",
+    "UFO_ListDelegate_Background_Hovered": "Color_Blue_3",
+    "UFO_ListDelegate_Background_Normal": "Color_Blue_3",
 
     "UFO_ProgressBar_Text": "Color_Dark_3",
     "UFO_ProgressBar_Background": "Color_Light_6",
     "UFO_ProgressBar_ProgressIndicator": "Color_Dark_4",
 
-    "UFO_StopTimer_Background": "Color_Dark_3",
+    "UFO_StopTimer_Background": "Color_Dark_2",
 
     "UFO_SplitView_Handle_Normal": "Color_Dark_4",
     "UFO_SplitView_Handle_Hovered": "Color_Dark_4",
