@@ -17,7 +17,7 @@ ApplicationWindow {
     height: 600
 
     visible: true
-    title: qsTr("UFO_QML")
+    title: qsTr("UFO_Todo")
 
     menuBar: UFO_MenuBar {
         id: ufo_MenuBar_1
@@ -139,10 +139,13 @@ ApplicationWindow {
 
                 leftPadding: 10
                 rightPadding: 10
-                text: qsTr("About UFO_QML")
+                text: qsTr("About UFO_Todo")
 
                 onTriggered: {
                     stackLayout_1.currentIndex = ufo_About.StackLayout.index
+
+                    // Change checked state of side bar.
+                    ufo_SideBar_1.checkTabButton("About")
                 }
             }
         }
