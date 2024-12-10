@@ -315,8 +315,8 @@ Rectangle {
         SoundEffect {
             id: soundEffect_1
 
-            loops: 2
-            source: "./../../music/sound effects/simple-notification.wav"
+            loops: 3
+            source: "./../../music/sound effects/notification.wav"
         }
 
         SystemTrayIcon {
