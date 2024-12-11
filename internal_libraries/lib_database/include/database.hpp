@@ -18,11 +18,11 @@ class Database : public QObject
     Q_DISABLE_COPY_MOVE(Database) // Needed for Singleton
 
 public:
-    explicit Database(QObject *parent = nullptr, const QString& name = "No name");
+    explicit Database(QObject *parent = Q_NULLPTR, const QString& name = "No name");
     ~Database();
 
     static Database *qmlInstance(QQmlEngine *engine, QJSEngine *scriptEngine);
-    static Database *cppInstance(QObject *parent = nullptr);
+    static Database *cppInstance(QObject *parent = Q_NULLPTR);
 
     // Fields;
 private:

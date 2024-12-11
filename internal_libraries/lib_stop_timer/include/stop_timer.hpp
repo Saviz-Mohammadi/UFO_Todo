@@ -18,7 +18,7 @@ class StopTimer : public QObject
 
     // Constructors, Initializers, Destructor
 public:
-    explicit StopTimer(QObject *parent = nullptr, const QString& name = "No name");
+    explicit StopTimer(QObject *parent = Q_NULLPTR, const QString& name = "No name");
     ~StopTimer();
 
     // Fields;

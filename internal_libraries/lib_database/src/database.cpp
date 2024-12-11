@@ -1,6 +1,6 @@
 #include "database.hpp"
 
-Database *Database::m_Instance = nullptr;
+Database *Database::m_Instance = Q_NULLPTR;
 
 // Constructors, Initializers, Destructor
 // [[------------------------------------------------------------------------]]
