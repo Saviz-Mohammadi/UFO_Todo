@@ -1,5 +1,5 @@
-#ifndef StopTimer_H
-#define StopTimer_H
+#ifndef STOPTIMER_H
+#define STOPTIMER_H
 
 #include <QDebug>
 #include <QObject>
@@ -68,4 +68,4 @@ private:
     void setSeconds(const quint64 &newTime);
 };
 
-#endif // StopTimer_H
+#endif // STOPTIMER_H

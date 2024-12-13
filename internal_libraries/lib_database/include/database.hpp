@@ -1,5 +1,5 @@
-#ifndef Database_H
-#define Database_H
+#ifndef DATABASE_H
+#define DATABASE_H
 
 #include <QDebug>
 #include <QObject>
@@ -11,6 +11,7 @@
 #include <QVariant>
 #include <QVariantList>
 #include <QFileInfo>
+#include <QTextStream>
 
 class Database : public QObject
 {
@@ -39,4 +40,4 @@ public:
     Q_INVOKABLE QVariantList obtainAllTasks();
 };
 
-#endif // Database_H
+#endif // DATABASE_H

@@ -1,5 +1,9 @@
 #include "stop_timer.hpp"
 
+#ifdef QT_DEBUG
+    #include "logger.hpp"
+#endif
+
 // Constructors, Initializers, Destructor
 // [[------------------------------------------------------------------------]]
 // [[------------------------------------------------------------------------]]
@@ -16,16 +20,11 @@ StopTimer::StopTimer(QObject *parent, const QString& name)
     this->setObjectName(name);
 
 
-
-// Debugging
 #ifdef QT_DEBUG
-    qDebug() << "\n**************************************************\n"
-             << "* Object Name :" << this->objectName()  << "\n"
-             << "* Function    :" << __FUNCTION__        << "\n"
-             << "* Message     : Call to Constructor"
-             << "\n**************************************************\n\n";
-#endif
+    QString message("Call to Constructor");
 
+    logger::log(logger::LOG_LEVEL::DEBUG, this->objectName(), Q_FUNC_INFO, message);
+#endif
 
 
     connect(this->timer, &QTimer::timeout, this, &StopTimer::calculateTime);
@@ -33,17 +32,11 @@ StopTimer::StopTimer(QObject *parent, const QString& name)
 
 StopTimer::~StopTimer()
 {
-// Debugging
 #ifdef QT_DEBUG
-    qDebug() << "\n**************************************************\n"
-             << "* Object Name :" << this->objectName()  << "\n"
-             << "* Function    :" << __FUNCTION__        << "\n"
-             << "* Message     : Call to Destructor"
-             << "\n**************************************************\n\n";
+    QString message("Call to Destructor");
+
+    logger::log(logger::LOG_LEVEL::DEBUG, this->objectName(), Q_FUNC_INFO, message);
 #endif
-
-
-
 }
 
 // [[------------------------------------------------------------------------]]

@@ -1,5 +1,10 @@
 #include "database.hpp"
 
+#ifdef QT_DEBUG
+    #include "logger.hpp"
+#endif
+
+
 Database *Database::m_Instance = Q_NULLPTR;
 
 // Constructors, Initializers, Destructor
@@ -14,39 +19,27 @@ Database::Database(QObject *parent, const QString& name)
     this->setObjectName(name);
 
 
-
-// Debugging
 #ifdef QT_DEBUG
-    qDebug() << "\n**************************************************\n"
-             << "* Object Name :" << this->objectName()  << "\n"
-             << "* Function    :" << __FUNCTION__        << "\n"
-             << "* Message     : Call to Constructor"
-             << "\n**************************************************\n\n";
-#endif
+    QString message("Call to Constructor\n");
 
-#ifdef QT_DEBUG
-    qDebug() << "\n**************************************************\n"
-             << "* Object Name :" << this->objectName()  << "\n"
-             << "* Function    :" << __FUNCTION__        << "\n"
-             << "* Message     : List of SQL drivers: "  << QSqlDatabase::drivers()
-             << "\n**************************************************\n\n";
+    QTextStream stream(&message);
+
+    stream << "List of SQL drivers: " << QSqlDatabase::drivers().join(", ");
+
+    logger::log(logger::LOG_LEVEL::DEBUG, this->objectName(), Q_FUNC_INFO, message);
 #endif
 }
 
 Database::~Database()
 {
-// Debugging
 #ifdef QT_DEBUG
-    qDebug() << "\n**************************************************\n"
-             << "* Object Name :" << this->objectName()  << "\n"
-             << "* Function    :" << __FUNCTION__        << "\n"
-             << "* Message     : Call to Destructor"
-             << "\n**************************************************\n\n";
+    QString message("Call to Destructor");
+
+    logger::log(logger::LOG_LEVEL::DEBUG, this->objectName(), Q_FUNC_INFO, message);
 #endif
 
 
-
-    // Closing the connection.
+    // Shutdown.
     this->disconnect();
 }
 
@@ -94,42 +87,30 @@ void Database::establishConnection(const QString &path)
         return;
     }
 
+
     m_QSqlDatabase = QSqlDatabase::addDatabase("QSQLITE");
 
     m_QSqlDatabase.setDatabaseName(path);
+
 
     bool connectionFailed = !m_QSqlDatabase.open();
 
     if (connectionFailed)
     {
-// Debugging
 #ifdef QT_DEBUG
-        qDebug() << "\n**************************************************\n"
-                 << "* Object Name :" << this->objectName()  << "\n"
-                 << "* Function    :" << __FUNCTION__        << "\n"
-                 << "* Message     : Connection failed!"     << "\n"
-                 << "* Error       : " << m_QSqlDatabase.lastError().text() << "\n"
-                 << "* Path exists : " << QFileInfo::exists(path) << "\n"
-                 << "* Path        : " << path
-                 << "\n**************************************************\n\n";
+        QString message("Connection failed!\n");
+
+        QTextStream stream(&message);
+
+        stream << "Error       : " << m_QSqlDatabase.lastError().text() << "\n"
+               << "Path exists : " << QFileInfo::exists(path) << "\n"
+               << "Path        : " << path;
+
+        logger::log(logger::LOG_LEVEL::DEBUG, this->objectName(), Q_FUNC_INFO, message);
 #endif
-
-
 
         return;
     }
-
-
-
-// Debugging
-#ifdef QT_DEBUG
-    qDebug() << "\n**************************************************\n"
-             << "* Object Name :" << this->objectName()  << "\n"
-             << "* Function    :" << __FUNCTION__        << "\n"
-             << "* Message     : Connection established!"
-             << "\n**************************************************\n\n";
-#endif
-
 
 
     QSqlQuery query;
@@ -140,30 +121,18 @@ void Database::establishConnection(const QString &path)
 
     if (!query_success)
     {
-// Debugging
 #ifdef QT_DEBUG
-        qDebug() << "\n**************************************************\n"
-                 << "* Object Name :" << this->objectName()  << "\n"
-                 << "* Function    :" << __FUNCTION__        << "\n"
-                 << "* Message     : Failed to run query. Reason: " << query.lastError().text()
-                 << "\n**************************************************\n\n";
+        QString message("Failed to run query!\n");
+
+        QTextStream stream(&message);
+
+        stream << "Reason: " << query.lastError().text();
+
+        logger::log(logger::LOG_LEVEL::DEBUG, this->objectName(), Q_FUNC_INFO, message);
 #endif
-
-
 
         return;
     }
-
-
-// Debugging
-#ifdef QT_DEBUG
-    qDebug() << "\n**************************************************\n"
-             << "* Object Name :" << this->objectName()  << "\n"
-             << "* Function    :" << __FUNCTION__        << "\n"
-             << "* Message     : Query executed successfully. Table is now created if not already existed."
-             << "\n**************************************************\n\n";
-#endif
-
 
 
     connectionExists = (true);
@@ -176,14 +145,10 @@ void Database::disconnect()
     connectionExists = (false);
 
 
-
-// Debugging
 #ifdef QT_DEBUG
-    qDebug() << "\n**************************************************\n"
-             << "* Object Name :" << this->objectName()  << "\n"
-             << "* Function    :" << __FUNCTION__        << "\n"
-             << "* Message     : Closing the database connection..."
-             << "\n**************************************************\n\n";
+    QString message("Closing the database connection...\n");
+
+    logger::log(logger::LOG_LEVEL::DEBUG, this->objectName(), Q_FUNC_INFO, message);
 #endif
 }
 
@@ -200,15 +165,15 @@ QVariant Database::addTask(const QString &text)
 
     if (!operation_success)
     {
-// Debugging
 #ifdef QT_DEBUG
-        qDebug() << "\n**************************************************\n"
-                 << "* Object Name :" << this->objectName()  << "\n"
-                 << "* Function    :" << __FUNCTION__        << "\n"
-                 << "* Message     : Operation failed! Reason: " << query.lastError().text()
-                 << "\n**************************************************\n\n";
-#endif
+        QString message("Operation failed!\n");
 
+        QTextStream stream(&message);
+
+        stream << "Reason: " << query.lastError().text();
+
+        logger::log(logger::LOG_LEVEL::DEBUG, this->objectName(), Q_FUNC_INFO, message);
+#endif
 
 
         return (operation_success);
@@ -231,20 +196,19 @@ bool Database::removeTask(QVariant id)
 
     if (!operation_success)
     {
-// Debugging
 #ifdef QT_DEBUG
-        qDebug() << "\n**************************************************\n"
-                 << "* Object Name :" << this->objectName()  << "\n"
-                 << "* Function    :" << __FUNCTION__        << "\n"
-                 << "* Message     : Operation failed! Reason: " << query.lastError().text()
-                 << "\n**************************************************\n\n";
-#endif
+        QString message("Operation failed!\n");
 
+        QTextStream stream(&message);
+
+        stream << "Reason: " << query.lastError().text();
+
+        logger::log(logger::LOG_LEVEL::DEBUG, this->objectName(), Q_FUNC_INFO, message);
+#endif
 
 
         return (operation_success);
     }
-
 
 
     return (operation_success);
@@ -269,17 +233,6 @@ QVariantList Database::obtainAllTasks()
         recordMap["task"] = query.value(1).toString();
 
         list.append(recordMap);
-
-
-
-// Debugging
-#ifdef QT_DEBUG
-        qDebug() << "\n**************************************************\n"
-                 << "* Object Name :" << this->objectName()  << "\n"
-                 << "* Function    :" << __FUNCTION__        << "\n"
-                 << "* Message     : Found record" << recordMap
-                 << "\n**************************************************\n\n";
-#endif
     }
 
 
