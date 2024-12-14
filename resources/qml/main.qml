@@ -53,7 +53,7 @@ ApplicationWindow {
                 text: qsTr("Tasks Page")
 
                 onTriggered: {
-                    stackLayout.currentIndex = ufo_TaskList.StackLayout.index
+                    stackLayout.currentIndex = ufo_Tasks.StackLayout.index
 
                     ufo_SideBar_Main.checkTabButton("Tasks Page")
                 }
@@ -144,8 +144,8 @@ ApplicationWindow {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            UFO_TaskList {
-                id: ufo_TaskList
+            UFO_Tasks {
+                id: ufo_Tasks
 
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -179,16 +179,16 @@ ApplicationWindow {
 
                     // TODO (SAVIZ): I like to replace these with an enum, but currently I don't know how in QML.
                     switch (pageName) {
-                        case "Tasks page":
-                            stackLayout.currentIndex = ufo_TaskList.StackLayout.index
+                        case "Tasks Page":
+                            stackLayout.currentIndex = ufo_Tasks.StackLayout.index
                             break
-                        case "Timer page":
+                        case "Timer Page":
                             stackLayout.currentIndex = ufo_Timer.StackLayout.index
                             break
-                        case "Settings page":
+                        case "Settings Page":
                             stackLayout.currentIndex = ufo_Settings.StackLayout.index
                             break
-                        case "About page":
+                        case "About Page":
                             stackLayout.currentIndex = ufo_About.StackLayout.index
                             break
                         default:

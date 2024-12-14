@@ -55,7 +55,8 @@ Item {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                contentWidth: -1 // Prevents scrollview from trying to scroll horizontally.
+                // NOTE (SAVIZ): Setting "contentWidth" to -1 will disable horizontal scrolling.
+                contentWidth: -1
                 ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
                 ColumnLayout {
@@ -83,7 +84,7 @@ Item {
                         svg: "./../../icons/Google icons/list.svg"
 
                         onClicked: {
-                            root.tabChanged("Tasks page")
+                            root.tabChanged("Tasks Page")
                         }
                     }
 
@@ -106,7 +107,7 @@ Item {
                         svg: "./../../icons/Google icons/alarm.svg"
 
                         onClicked: {
-                            root.tabChanged("Timer page")
+                            root.tabChanged("Timer Page")
                         }
                     }
 
@@ -148,7 +149,7 @@ Item {
                 svg: "./../../icons/Google icons/settings.svg"
 
                 onClicked: {
-                    root.tabChanged("Settings page")
+                    root.tabChanged("Settings Page")
                 }
             }
 
@@ -171,7 +172,7 @@ Item {
                 svg: "./../../icons/Google icons/help.svg"
 
                 onClicked: {
-                    root.tabChanged("About page")
+                    root.tabChanged("About Page")
                 }
             }
         }

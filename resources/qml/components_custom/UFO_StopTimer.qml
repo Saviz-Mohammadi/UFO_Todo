@@ -26,16 +26,14 @@ Rectangle {
 
     radius: 0
 
-    // This way properties are not visible to the outside world.
     QtObject {
-        id: qtObject_1
+        id: qtObject_Properties
 
         property int hours: 0
         property int minutes: 0
         property int seconds: 0
         property int milliseconds: 0
 
-        // For the very first time make sure to read defaults.
         Component.onCompleted: {
             hours = root.defaultHours
             minutes = root.defaultMinutes
@@ -44,37 +42,31 @@ Rectangle {
     }
 
     ColumnLayout {
-        id: columnLayout_1
-
         anchors.fill: parent
         anchors.margins: 10
 
         UFO_ProgressBar {
-            id: ufo_ProgressBar_1
+            id: ufo_ProgressBar
 
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            // The -25 is for creating some space.
+            // NOTE (SAVIZ): The "- 25" is for creating some additional space.
             circleWidth: root.implicitWidth - 25
             circleHeight: root.implicitHeight - 25
 
             message: defaultMessage
 
             from: 0
-            to: qtObject_1.milliseconds
+            to: qtObject_Properties.milliseconds
             value: stopTimer_1.remaningTime
         }
 
         RowLayout {
-            id: rowLayout_1
-
             Layout.fillWidth: true
             Layout.preferredHeight: 40
 
             Item {
-                id: item_1
-
                 Layout.fillWidth: true
                 Layout.fillHeight: true
             }
@@ -91,23 +83,22 @@ Rectangle {
 
                 placeholderText: qsTr("Hours")
 
-                ToolTip.visible: hovered
-                ToolTip.text: "Number can only be between 0 and 99"
-
                 onTextChanged: {
                     var input = parseInt(ufo_TextField_1.text)
 
                     if (input !== 0) {
-                        qtObject_1.hours = input
+                        qtObject_Properties.hours = input
+
                         return
                     }
 
                     if (root.defaultHours !== 0) {
-                        qtObject_1.hours = root.defaultHours
+                        qtObject_Properties.hours = root.defaultHours
+
                         return
                     }
 
-                    // Otherwise, don't do anything.
+                    // NOTE (SAVIZ): Otherwise, don't perform any actions.
                 }
             }
 
@@ -123,23 +114,22 @@ Rectangle {
 
                 placeholderText: qsTr("Minutes")
 
-                ToolTip.visible: hovered
-                ToolTip.text: "Number can only be between 0 and 99"
-
                 onTextChanged: {
                     var input = parseInt(ufo_TextField_2.text)
 
                     if (input !== 0) {
-                        qtObject_1.minutes = input
+                        qtObject_Properties.minutes = input
+
                         return
                     }
 
                     if (root.defaultMinutes !== 0) {
-                        qtObject_1.minutes = root.defaultMinutes
+                        qtObject_Properties.minutes = root.defaultMinutes
+
                         return
                     }
 
-                    // Otherwise, don't do anything.
+                    // NOTE (SAVIZ): Otherwise, don't perform any actions.
                 }
             }
 
@@ -155,43 +145,36 @@ Rectangle {
 
                 placeholderText: qsTr("Seconds")
 
-                ToolTip.visible: hovered
-                ToolTip.text: "Number can only be between 0 and 99"
-
                 onTextChanged: {
                     var input = parseInt(ufo_TextField_3.text)
 
                     if (input !== 0) {
-                        qtObject_1.seconds = input
+                        qtObject_Properties.seconds = input
+
                         return
                     }
 
                     if (root.defaultSeconds !== 0) {
-                        qtObject_1.seconds = root.defaultSeconds
+                        qtObject_Properties.seconds = root.defaultSeconds
+
                         return
                     }
 
-                    // Otherwise, don't do anything.
+                    // NOTE (SAVIZ): Otherwise, don't perform any actions.
                 }
             }
 
             Item {
-                id: item_2
-
                 Layout.fillWidth: true
                 Layout.fillHeight: true
             }
         }
 
         RowLayout {
-            id: rowLayout_2
-
             Layout.fillWidth: true
             Layout.preferredHeight: 40
 
             Item {
-                id: item_3
-
                 Layout.fillWidth: true
                 Layout.fillHeight: true
             }
@@ -206,11 +189,9 @@ Rectangle {
                 svg: "./../../icons/Google icons/play.svg"
 
                 onClicked: {
-                    // Convert hours + minutes + seconds into milliseconds
-                    qtObject_1.milliseconds = (qtObject_1.hours * 3600 * 1000)
-                            + (qtObject_1.minutes * 60 * 1000) + (qtObject_1.seconds * 1000)
+                    qtObject_Properties.milliseconds = (qtObject_Properties.hours * 3600 * 1000) + (qtObject_Properties.minutes * 60 * 1000) + (qtObject_Properties.seconds * 1000)
 
-                    if (qtObject_1.milliseconds === 0) {
+                    if (qtObject_Properties.milliseconds === 0) {
                         return
                     }
 
@@ -218,8 +199,7 @@ Rectangle {
                     ufo_TextField_2.enabled = false
                     ufo_TextField_3.enabled = false
 
-                    // Add some code here to make the message appear as the full number at first.
-                    stopTimer_1.startTimer(qtObject_1.milliseconds, 1000)
+                    stopTimer_1.startTimer(qtObject_Properties.milliseconds, 1000)
                 }
             }
 
@@ -262,19 +242,18 @@ Rectangle {
             }
 
             Item {
-                id: item_4
-
                 Layout.fillWidth: true
                 Layout.fillHeight: true
             }
         }
 
-        // The logic.
+
+
         StopTimer {
             id: stopTimer_1
 
             onTimeChanged: {
-                ufo_ProgressBar_1.message = stopTimer_1.time
+                ufo_ProgressBar.message = stopTimer_1.time
             }
 
             onTimerStarted: {
@@ -292,12 +271,14 @@ Rectangle {
 
                 if (remaningTime <= 0) {
 
-                    systemTrayIcon_1.showMessage(
+                    systemTrayIcon.showMessage(
                         qsTr("Timer Finished!"),
                         qsTr("The application timer has ended.")
                     )
 
-                    soundEffect_1.play()
+                    soundEffect.play()
+
+                    ufo_StatusBar.displayMessage("Timer Finished!")
 
                     return
                 }
@@ -313,32 +294,29 @@ Rectangle {
         }
 
         SoundEffect {
-            id: soundEffect_1
+            id: soundEffect
 
             loops: 3
             source: "./../../music/sound effects/notification.wav"
         }
 
         SystemTrayIcon {
-            id: systemTrayIcon_1
+            id: systemTrayIcon
 
             visible: true
             icon.source: "./../../icons/Application icons/ufo.ico"
             icon.mask: false
 
             menu: Menu {
-                id: menu_1
 
                 MenuItem {
-                    id: menuItem_1
-
                     text: qsTr("Quit")
                     onTriggered: Qt.quit()
                 }
             }
 
             onActivated: {
-                soundEffect_1.stop()
+                soundEffect.stop()
             }
         }
     }

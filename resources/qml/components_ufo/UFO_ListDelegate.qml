@@ -7,7 +7,8 @@ import AppTheme 1.0
 
 Item {
     id: root
-    property alias description: label_1.text
+
+    property alias description: label.text
     property alias backgroundColor: rectangle_Task.color
 
     signal deleteClicked
@@ -17,6 +18,7 @@ Item {
 
     Rectangle {
         id: rectangle_Task
+
         width: parent.width
         height: content.implicitHeight
 
@@ -24,10 +26,11 @@ Item {
 
         RowLayout {
             id: content
+
             anchors.fill: parent
 
             Label {
-                id: label_1
+                id: label
 
                 Layout.fillWidth: true
                 Layout.fillHeight: true
@@ -42,7 +45,7 @@ Item {
             }
 
             Button {
-                id: button_1
+                id: button
 
                 width: 120
                 height: 30
@@ -57,28 +60,31 @@ Item {
                 contentItem: RowLayout {
 
                     Item {
-                        id: item_1
-
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                     }
 
                     IconImage {
+                        Layout.preferredWidth: 18
+                        Layout.preferredHeight: 18
+
                         source: "./../../icons/Google icons/check_circle.svg"
                         smooth: true
                         mipmap: true
-                        Layout.preferredWidth: 18
-                        Layout.preferredHeight: 18
                         verticalAlignment: Image.AlignVCenter
                         antialiasing: true
 
                         color: {
                             color: {
-                                if (button_1.pressed) {
+                                if (button.pressed) {
                                     Qt.color(AppTheme.colors["UFO_ListDelegate_Icon_Pressed"])
-                                } else if (button_1.hovered) {
+                                }
+
+                                else if (button.hovered) {
                                     Qt.color(AppTheme.colors["UFO_ListDelegate_Icon_Hovered"])
-                                } else {
+                                }
+
+                                else {
                                     Qt.color(AppTheme.colors["UFO_ListDelegate_Icon_Normal"])
                                 }
                             }
@@ -87,25 +93,28 @@ Item {
 
                     Text {
                         Layout.fillHeight: true
-                        text: button_1.text
-                        font: button_1.font
+
+                        text: button.text
+                        font: button.font
                         horizontalAlignment: Text.AlignLeft
                         verticalAlignment: Text.AlignVCenter
 
                         color: {
-                            if (button_1.pressed) {
+                            if (button.pressed) {
                                 Qt.color(AppTheme.colors["UFO_ListDelegate_Text_Pressed"])
-                            } else if (button_1.hovered) {
+                            }
+
+                            else if (button.hovered) {
                                 Qt.color(AppTheme.colors["UFO_ListDelegate_Text_Hovered"])
-                            } else {
+                            }
+
+                            else {
                                 Qt.color(AppTheme.colors["UFO_ListDelegate_Text_Normal"])
                             }
                         }
                     }
 
                     Item {
-                        id: item_2
-
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                     }
@@ -116,11 +125,15 @@ Item {
                     radius: 0
 
                     color: {
-                        if (button_1.pressed) {
+                        if (button.pressed) {
                             Qt.color(AppTheme.colors["UFO_ListDelegate_Background_Pressed"])
-                        } else if (button_1.hovered) {
+                        }
+
+                        else if (button.hovered) {
                             Qt.color(AppTheme.colors["UFO_ListDelegate_Background_Hovered"])
-                        } else {
+                        }
+
+                        else {
                             Qt.color(AppTheme.colors["UFO_ListDelegate_Background_Normal"])
                         }
                     }

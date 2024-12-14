@@ -90,8 +90,7 @@ void readCustomFonts(const QGuiApplication &application)
 
 void setGlobalFont(const QGuiApplication &application)
 {
-    // The name is automatically set by Qt and depends on the metadata of the file.
-    // Refer to Google Fonts to find out the correct name to use.
+    // NOTE (SAVIZ): The name is automatically set by Qt and depends on the metadata of the file. Refer to "Google Fonts" to find out the correct name to use.
     QString fontFamilyName = "Titillium Web";
 
 

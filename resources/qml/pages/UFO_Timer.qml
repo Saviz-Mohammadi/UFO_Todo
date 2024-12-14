@@ -12,14 +12,8 @@ import AppTheme 1.0
 UFO_Page {
     id: root
 
-    Layout.fillWidth: true
-    Layout.fillHeight: true
-
-    contentSpacing: 25
-    //contentWidth: 1.0
-    title: qsTr("Timer")
-
-
+    title: qsTr("Timers")
+    contentSpacing: 20
 
     Flow {
         Layout.fillWidth: true
@@ -27,8 +21,6 @@ UFO_Page {
         spacing: 10
 
         UFO_StopTimer {
-            id: ufo_StopTimer_1
-
             width: 400
             height: 300
 
@@ -37,8 +29,6 @@ UFO_Page {
         }
 
         UFO_StopTimer {
-            id: ufo_StopTimer_2
-
             width: 400
             height: 300
 
@@ -47,8 +37,30 @@ UFO_Page {
         }
 
         UFO_StopTimer {
-            id: ufo_StopTimer_3
+            width: 400
+            height: 300
 
+            defaultMessage: "01:00:00"
+            defaultHours: 30
+        }
+
+        UFO_StopTimer {
+            width: 400
+            height: 300
+
+            defaultMessage: "05:00:00"
+            defaultHours: 30
+        }
+
+        UFO_StopTimer {
+            width: 400
+            height: 300
+
+            defaultMessage: "10:00:00"
+            defaultHours: 30
+        }
+
+        UFO_StopTimer {
             width: 400
             height: 300
 
