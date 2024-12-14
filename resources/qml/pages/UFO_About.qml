@@ -87,7 +87,7 @@ UFO_Page {
             Layout.leftMargin: 15
             Layout.rightMargin: 15
 
-            text: qsTr("We welcome contributions to the UFO_Todo template! Please visit our GitHub page by clicking the button below for more information.")
+            text: qsTr("We welcome contributions to the UFO_Todo application! Please visit our GitHub page by clicking the button below for more information.")
 
             color: Qt.color(AppTheme.colors["UFO_GroupBox_Content_Text"])
             wrapMode: Text.WordWrap
